@@ -1,0 +1,33 @@
+{
+  "name": "VORTEX GAMING",
+  "short_name": "VORTEX",
+  "id": "/",
+  "description": "An ultra-cinematic browser arcade with 16 playable neon titles, XP progression and global PostgreSQL leaderboards.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b0621",
+  "theme_color": "#ff2e88",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
