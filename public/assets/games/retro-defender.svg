@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 432" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b0621"/><stop offset="1" stop-color="#2a0a22"/></linearGradient>
+    <filter id="glow2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <radialGradient id="boom" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#ffb42e"/><stop offset=".7" stop-color="#ff2e88" stop-opacity=".6"/><stop offset="1" stop-color="#ff2e88" stop-opacity="0"/></radialGradient>
+    <radialGradient id="haze2" cx=".5" cy=".85" r=".8"><stop offset="0" stop-color="#ff2e88" stop-opacity=".18"/><stop offset="1" stop-color="#ff2e88" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="768" height="432" fill="url(#bg2)"/>
+  <rect width="768" height="432" fill="url(#haze2)"/>
+  <g filter="url(#glow2)" stroke="#2ee6ff" stroke-width="3" fill="none" opacity=".9">
+    <path d="M40,240 Q200,80 330,190"/><path d="M250,240 Q400,60 520,170" stroke="#ffb42e"/>
+    <path d="M480,240 Q600,100 720,180" stroke="#ff2e88"/>
+  </g>
+  <g filter="url(#glow2)">
+    <circle cx="330" cy="190" r="34" fill="url(#boom)"/><circle cx="520" cy="170" r="46" fill="url(#boom)"/><circle cx="200" cy="120" r="22" fill="url(#boom)"/>
+  </g>
+  <g fill="#8a5cff" stroke="#2ee6ff" stroke-width="2">
+    <rect x="30" y="320" width="70" height="112"/><rect x="130" y="345" width="60" height="87"/><rect x="220" y="330" width="72" height="102"/><rect x="322" y="350" width="58" height="82"/><rect x="410" y="326" width="74" height="106"/><rect x="514" y="342" width="62" height="90"/><rect x="606" y="332" width="70" height="100"/>
+  </g>
+  <g fill="#2ee6ff" opacity=".6">
+    <rect x="44" y="336" width="12" height="12"/><rect x="66" y="336" width="12" height="12"/><rect x="142" y="358" width="10" height="10"/><rect x="234" y="344" width="12" height="12"/><rect x="424" y="340" width="12" height="12"/><rect x="620" y="346" width="12" height="12"/>
+  </g>
+  <g stroke="#ffb42e" stroke-width="3" stroke-linecap="round" opacity=".8">
+    <line x1="90" y1="316" x2="250" y2="150"/><line x1="420" y1="318" x2="520" y2="175"/><line x1="640" y1="326" x2="720" y2="185"/>
+  </g>
+</svg>

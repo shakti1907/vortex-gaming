@@ -13,9 +13,47 @@
   var LS_PENDING = "vg_pending_sync";
   var API_TIMEOUT_MS = 9000;
 
+  /* ------------------------------------------------------------------
+     Storage-safe helpers. The module MUST survive blocked/sandboxed
+     storage (embedded frames, private modes) — a throw here used to kill
+     the whole DB layer and cascade into "checking…" / "SYNCING…" forever.
+     ------------------------------------------------------------------ */
+  var memoryStore = {};
+  var storageOK = true;
+
+  function lsGet(key) {
+    if (!storageOK) return memoryStore[key] === undefined ? null : memoryStore[key];
+    try {
+      return window.localStorage.getItem(key);
+    } catch (err) {
+      storageOK = false;
+      return memoryStore[key] === undefined ? null : memoryStore[key];
+    }
+  }
+
+  function lsSet(key, value) {
+    memoryStore[key] = String(value);
+    if (!storageOK) return;
+    try {
+      window.localStorage.setItem(key, value);
+    } catch (err) {
+      storageOK = false;
+    }
+  }
+
+  function lsRemove(key) {
+    delete memoryStore[key];
+    if (!storageOK) return;
+    try {
+      window.localStorage.removeItem(key);
+    } catch (err) {
+      storageOK = false;
+    }
+  }
+
   function readJSON(key, fallback) {
     try {
-      var raw = localStorage.getItem(key);
+      var raw = lsGet(key);
       return raw ? JSON.parse(raw) : fallback;
     } catch (err) {
       return fallback;
@@ -24,7 +62,7 @@
 
   function writeJSON(key, value) {
     try {
-      localStorage.setItem(key, JSON.stringify(value));
+      lsSet(key, JSON.stringify(value));
     } catch (err) {
       /* storage may be full/blocked — non-fatal */
     }
@@ -33,7 +71,7 @@
   var listeners = [];
 
   var VortexDB = {
-    token: localStorage.getItem(LS_TOKEN) || null,
+    token: lsGet(LS_TOKEN) || null,
     user: readJSON(LS_USER, null),
 
     /* --------------------------- events --------------------------- */
@@ -57,40 +95,48 @@
       var headers = { "Content-Type": "application/json" };
       if (this.token) headers["Authorization"] = "Bearer " + this.token;
 
-      var controller = new AbortController();
-      var timer = setTimeout(function () {
-        controller.abort();
-      }, API_TIMEOUT_MS);
+      // Never throw synchronously: the UI depends on a settled promise so
+      // status readouts can always resolve (offline is a valid state).
+      try {
+        var controller = typeof AbortController === "function" ? new AbortController() : null;
+        var timer = controller
+          ? setTimeout(function () {
+              controller.abort();
+            }, API_TIMEOUT_MS)
+          : null;
 
-      return fetch(path, {
-        method: method,
-        headers: headers,
-        body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
-        signal: controller.signal,
-        credentials: "same-origin",
-      })
-        .then(function (res) {
-          clearTimeout(timer);
-          return res
-            .json()
-            .catch(function () {
-              return null;
-            })
-            .then(function (data) {
-              if (!res.ok) {
-                return {
-                  ok: false,
-                  status: res.status,
-                  error: (data && data.error) || "Request failed (" + res.status + ")",
-                };
-              }
-              return data;
-            });
+        return fetch(path, {
+          method: method,
+          headers: headers,
+          body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
+          signal: controller ? controller.signal : undefined,
+          credentials: "same-origin",
         })
-        .catch(function () {
-          clearTimeout(timer);
-          return null; // network down / aborted — caller falls back to local
-        });
+          .then(function (res) {
+            if (timer) clearTimeout(timer);
+            return res
+              .json()
+              .catch(function () {
+                return null;
+              })
+              .then(function (data) {
+                if (!res.ok) {
+                  return {
+                    ok: false,
+                    status: res.status,
+                    error: (data && data.error) || "Request failed (" + res.status + ")",
+                  };
+                }
+                return data;
+              });
+          })
+          .catch(function () {
+            if (timer) clearTimeout(timer);
+            return null; // network down / aborted — caller falls back to local
+          });
+      } catch (err) {
+        return Promise.resolve(null);
+      }
     },
 
     /* ---------------------------- auth ---------------------------- */
@@ -127,15 +173,15 @@
     logout: function () {
       this.token = null;
       this.user = null;
-      localStorage.removeItem(LS_TOKEN);
-      localStorage.removeItem(LS_USER);
+      lsRemove(LS_TOKEN);
+      lsRemove(LS_USER);
       this.emitAuth();
     },
 
     setSession: function (token, user) {
       this.token = token;
       this.user = user;
-      localStorage.setItem(LS_TOKEN, token);
+      lsSet(LS_TOKEN, token);
       writeJSON(LS_USER, user);
       this.emitAuth();
     },
@@ -239,10 +285,7 @@
     leaderboard: function (gameKey, scope) {
       var self = this;
       var suffix = scope === "session" ? "?scope=session" : "";
-      return this.api("/api/leaderboard/" + encodeURIComponent(gameKey) + suffix).then(function (res) {
-        if (res && res.ok) {
-          return { entries: res.entries || [], game: res.game, live: true, source: res.source, scope: res.scope, me: self.user ? self.user.username : null };
-        }
+      var localFallback = function () {
         // Offline fallback: surface the local solo record.
         var best = self.getBest(gameKey);
         var entries = [];
@@ -256,13 +299,25 @@
           });
         }
         return { entries: entries, game: null, live: false, me: null };
-      });
+      };
+      return this.api("/api/leaderboard/" + encodeURIComponent(gameKey) + suffix)
+        .then(function (res) {
+          if (res && res.ok) {
+            return { entries: res.entries || [], game: res.game, live: true, source: res.source, scope: res.scope, me: self.user ? self.user.username : null };
+          }
+          return localFallback();
+        })
+        .catch(localFallback); // always settle — callers update UI state from this
     },
 
     ping: function () {
-      return this.api("/api/health").then(function (res) {
-        return !!(res && res.ok);
-      });
+      return this.api("/api/health")
+        .then(function (res) {
+          return !!(res && res.ok);
+        })
+        .catch(function () {
+          return false;
+        });
     },
   };
 

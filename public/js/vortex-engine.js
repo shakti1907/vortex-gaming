@@ -207,6 +207,7 @@
     },
 
     publishStats: function () {
+      if (!this.fps) return;   // wait for a real sample — never show "0 FPS"
       var el = document.getElementById("fps-readout");
       if (el) el.textContent = this.fps + " FPS";
       var hero = document.getElementById("stat-fps");
@@ -515,10 +516,42 @@
   };
 
   /* ------------------------------------------------------------------ */
+  /* FALLBACK FPS METER — the render-core readouts must resolve into     */
+  /* live numbers even when the ambient stage canvas is unavailable.     */
+  /* ------------------------------------------------------------------ */
+  function startFallbackFpsMeter() {
+    var frames = 0;
+    var last = performance.now();
+    var published = false;
+
+    function tick(now) {
+      frames++;
+      if (now - last >= 500) {
+        Stage.fps = Math.round((frames * 1000) / (now - last));
+        frames = 0;
+        last = now;
+        Stage.publishStats();
+        published = true;
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    // last-resort stable value if rAF is heavily throttled
+    setTimeout(function () {
+      if (!published) {
+        Stage.fps = Stage.fps || 0;
+        Stage.publishStats();
+      }
+    }, 2200);
+  }
+
+  /* ------------------------------------------------------------------ */
   /* BOOT                                                               */
   /* ------------------------------------------------------------------ */
   function boot() {
     Stage.init();
+    if (!Stage.running) startFallbackFpsMeter();
 
     // theme switcher
     var dots = document.querySelectorAll(".theme-dot");

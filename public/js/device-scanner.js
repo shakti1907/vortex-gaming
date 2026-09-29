@@ -132,6 +132,21 @@
 
   window.VortexDevice = profile;
 
+  // Resolve the hardware readouts the moment the profile exists — these must
+  // never be left stuck on "SCANNING", regardless of any later module state.
+  (function publishProfile() {
+    var label = profile.tier.toUpperCase() + " TIER";
+    var perf = document.getElementById("perf-readout");
+    if (perf) perf.textContent = label;
+    var heroPerf = document.getElementById("stat-perf");
+    if (heroPerf) heroPerf.textContent = label;
+    var footerHw = document.getElementById("footer-hw");
+    if (footerHw) {
+      footerHw.textContent = "Hardware profile: " + label + " · " + profile.cores +
+        " cores · " + profile.memory + "GB · DPR " + profile.dpr;
+    }
+  })();
+
   document.dispatchEvent(
     new CustomEvent("vortex:device", { detail: profile })
   );

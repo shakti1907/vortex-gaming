@@ -16,7 +16,7 @@
   FX.register({
     key: "cyber-invaders",
     title: "Cyber Invaders",
-    hint: "← → / A D move · SPACE or ◆ fire · destroy shields' cover wisely · survive the BOSS",
+    hint: "← → / A D · SPACE / ◆ fire · drag on the pad to steer + auto-fire (touch) · survive escalating waves + the SENTINEL",
     pad: true,
 
     setup: function (api) {
@@ -31,6 +31,8 @@
       d.boss = null;
       d.marchT = 0;
       d.dir = 1;
+      d.fireT = 1.2;
+      d.waveQueued = false;  // wave transitions are deferred to a safe point
       buildWave(api);
       buildShields(api);
     },
@@ -43,6 +45,15 @@
 
     update: function (dt, t, api) {
       var d = api.data, v = api.view, I = api.input;
+
+      /* ---- wave transition (safe point: start of frame, never mid-iteration).
+             Resets the enemy array, collision state and spawn timers together
+             so nothing from the previous wave can poison the next one. ---- */
+      if (d.waveQueued) {
+        d.waveQueued = false;
+        d.wave++;
+        startWave(api);
+      }
 
       /* ---- ship ---- */
       var ax = I.axisX();
@@ -102,8 +113,7 @@
             api.xp(12);
             if (api.audio) api.audio.explosion();
             d.boss = null;
-            d.wave++;
-            buildWave(api);
+            d.waveQueued = true;   // rebuild the field at the next safe point — never mid-bullet-loop
           }
         }
         if (consumed) d.bullets.splice(b, 1);
@@ -112,11 +122,11 @@
       /* ---- invader march ---- */
       var alive = 0, lowest = 0;
       for (var m = 0; m < d.invaders.length; m++) if (d.invaders[m].alive) { alive++; lowest = Math.max(lowest, d.invaders[m].y); }
-      if (alive === 0 && !d.boss) {
-        d.wave++;
-        if (d.wave % 3 === 0) spawnBoss(api); else buildWave(api);
+      if (alive === 0 && !d.boss && !d.waveQueued) {
+        d.waveQueued = true;   // field cleared — queue the next wave (handled at the start of the next frame)
       }
 
+      /* ---- wave escalation: the grid marches faster as waves progress ---- */
       var speed = (26 + (d.invaders.length - alive) * 1.6 + d.wave * 8);
       d.marchT += dt;
       var shiftX = d.dir * speed * dt;
@@ -135,13 +145,22 @@
       }
       if (lowest > d.ship.y - 40 && alive > 0) damage(api, true);
 
-      /* ---- invader fire ---- */
+      /* ---- invader fire: cadence tightens and volley density grows per wave ---- */
       d.fireT = (d.fireT || 0) - dt;
       if (d.fireT <= 0 && alive > 0) {
-        d.fireT = Math.max(0.28, 1.4 - d.wave * 0.12);
+        d.fireT = Math.max(0.24, 1.4 - d.wave * 0.12);
         var shooters = d.invaders.filter(function (x) { return x.alive; });
-        var pick = shooters[(Math.random() * shooters.length) | 0];
-        if (pick) d.bombs.push({ x: pick.x, y: pick.y + 12, vx: 0, vy: 180 + d.wave * 14 });
+        var volleys = Math.min(3, shooters.length, 1 + Math.floor(d.wave / 3));
+        var used = {};
+        for (var vv = 0; vv < volleys; vv++) {
+          var pi = (Math.random() * shooters.length) | 0;
+          var spins = 0;
+          while (used[pi] && spins < shooters.length) { pi = (pi + 1) % shooters.length; spins++; }
+          if (used[pi]) break;
+          used[pi] = true;
+          var pick = shooters[pi];
+          d.bombs.push({ x: pick.x, y: pick.y + 12, vx: (Math.random() - 0.5) * 26, vy: Math.min(340, 170 + d.wave * 14) });
+        }
       }
 
       /* ---- boss behaviour ---- */
@@ -168,9 +187,13 @@
         }
       }
 
-      /* ---- bombs ---- */
+      /* ---- bombs ----
+         NOTE: damage() wipes the bombs array, so this loop must tolerate a
+         shrunk/emptied array mid-iteration (the old code dereferenced a hole
+         and killed the RAF loop — the classic "frozen screen" bug). */
       for (var k = d.bombs.length - 1; k >= 0; k--) {
         var bm = d.bombs[k];
+        if (!bm) continue;
         bm.x += bm.vx * dt; bm.y += bm.vy * dt;
         api.fx.trail(bm.x, bm.y, api.colors[0], 3.5, 0.2);
         if (bm.y > v.h + 14 || bm.x < -14 || bm.x > v.w + 14) { d.bombs.splice(k, 1); continue; }
@@ -178,6 +201,7 @@
         if (U.circleHit(bm.x, bm.y, 5, d.ship.x, d.ship.y, 12)) {
           d.bombs.splice(k, 1);
           damage(api, false);
+          break;   // damage() cleared the rest of the swarm — exit cleanly
         }
       }
 
@@ -273,17 +297,42 @@
     [[-12, -4], [-4, -10], [4, -10], [12, -4], [6, 10], [-6, 10]],
   ];
 
+  /* ---- clean wave transition: runs ONLY at the start-of-frame safe point ---- */
+  function startWave(api) {
+    var d = api.data, v = api.view;
+
+    // reset collision state left over from the previous wave
+    d.bullets.length = 0;
+    d.bombs.length = 0;
+    d.drops.length = 0;
+    d.fireT = Math.max(0.6, 1.4 - d.wave * 0.12);
+    d.marchT = 0;
+    d.dir = 1;
+
+    if (d.wave % 3 === 0) {
+      spawnBoss(api);          // every 3rd wave: SENTINEL boss
+    } else {
+      buildWave(api);
+      buildShields(api);       // shields are rebuilt between assault waves
+      api.fx.popup(v.w / 2, v.h * 0.44, "WAVE " + d.wave, api.colors[1], 20);
+      api.sfx(520 + Math.min(8, d.wave) * 40, 0.08, "triangle", 0.05);
+    }
+  }
+
+  /* ---- progressive spawn: waves 1..N grow in rank & file every 2 waves ---- */
   function buildWave(api) {
     var d = api.data, v = api.view;
     d.invaders = [];
-    var cols = 8, rows = 4;
-    var gapX = Math.min(64, (v.w - 80) / cols);
+    var cols = U.clamp(6 + Math.floor((d.wave - 1) / 2), 6, 9);
+    var rows = U.clamp(3 + Math.floor((d.wave - 1) / 2), 3, 6);
+    var gapX = Math.max(28, Math.min(64, (v.w - 60) / cols));
+    var gapY = rows >= 6 ? 32 : 38;
     var startX = (v.w - (cols - 1) * gapX) / 2;
     for (var r = 0; r < rows; r++) {
       for (var c = 0; c < cols; c++) {
         d.invaders.push({
-          x: startX + c * gapX, y: 58 + r * 40, r: 13,
-          tier: rows - r, col: c, alive: true,
+          x: startX + c * gapX, y: 58 + r * gapY, r: 13,
+          tier: ((rows - r) + d.wave - 1) % 4 + 1, col: c, alive: true,
         });
       }
     }
@@ -295,6 +344,7 @@
     d.boss = { x: v.w / 2, y: 80, w: 130, hp: 40 + d.wave * 6, max: 40 + d.wave * 6, fire: 1, phase: 0 };
     api.fx.flash(api.colors[0], 0.5);
     api.fx.shake(12);
+    api.fx.popup(v.w / 2, v.h * 0.4, "WAVE " + d.wave, api.colors[1], 20);
     api.fx.popup(v.w / 2, v.h / 2, "SENTINEL INBOUND", api.colors[0], 22);
     if (api.audio) api.audio.explosion();
   }
@@ -333,7 +383,7 @@
     var d = api.data;
     d.lives--;
     d.weapon = Math.max(0, d.weapon - 1);
-    d.bombs.length = 0;
+    d.bombs.length = 0;   // safe: the bombs loop breaks as soon as damage() runs
     api.breakCombo();
     api.fx.burst(d.ship.x, d.ship.y, { count: 40, colors: ["#ff2b5e", api.colors[2]], speed: 300 });
     api.fx.shake(14);

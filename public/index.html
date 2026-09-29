@@ -283,24 +283,29 @@
     <div class="modal-card auth-card">
       <button class="modal-close" data-close-auth type="button" aria-label="Close">✕</button>
       <div class="auth-tabs">
-        <button class="auth-tab active" data-tab="login" type="button">ACCESS</button>
-        <button class="auth-tab" data-tab="register" type="button">ENLIST</button>
+        <button class="auth-tab active" data-tab="login" type="button">LOGIN</button>
+        <button class="auth-tab" data-tab="register" type="button">REGISTER</button>
       </div>
 
       <form id="form-login" class="auth-form" autocomplete="off">
-        <label>EMAIL<input id="login-email" type="email" required placeholder="pilot@vortex.gg" /></label>
+        <p class="auth-section-tag">RETURNING PILOT — ACCESS</p>
+        <p class="auth-section-sub">Sign in with the identity you registered. We'll greet you by your handle.</p>
+        <label>EMAIL<input id="login-email" type="email" required placeholder="pilot@domain.com" /></label>
         <label>PASSWORD<input id="login-password" type="password" required placeholder="••••••••" /></label>
         <p class="auth-error hidden" id="login-error"></p>
         <button class="btn btn-neon btn-block" type="submit">JACK IN</button>
-        <p class="auth-hint">Admin console: <code>admin@vortex.gg</code></p>
+        <p class="auth-hint">New to the grid? Switch to <strong>REGISTER</strong> above.</p>
       </form>
 
       <form id="form-register" class="auth-form hidden" autocomplete="off">
+        <p class="auth-section-tag">NEW RECRUIT — REGISTER</p>
+        <p class="auth-section-sub">Create your grid identity. Your handle and progress persist on the PostgreSQL backbone.</p>
         <label>USERNAME<input id="reg-username" type="text" required minlength="3" maxlength="24" placeholder="neon_pilot" /></label>
-        <label>EMAIL<input id="reg-email" type="email" required placeholder="pilot@vortex.gg" /></label>
+        <label>EMAIL<input id="reg-email" type="email" required placeholder="pilot@domain.com" /></label>
         <label>PASSWORD<input id="reg-password" type="password" required minlength="6" placeholder="min. 6 characters" /></label>
         <p class="auth-error hidden" id="reg-error"></p>
         <button class="btn btn-neon btn-block" type="submit">CREATE ACCOUNT</button>
+        <p class="auth-hint">Already registered? Switch to <strong>LOGIN</strong> above.</p>
       </form>
     </div>
   </div>
@@ -343,11 +348,11 @@
       <footer class="game-foot">
         <span id="gm-hint">ARROWS / WASD — steer</span>
         <div id="dpad" aria-label="Touch controls">
-          <button class="dpad-btn dpad-up" data-dir="up" type="button" aria-label="Up">▲</button>
-          <button class="dpad-btn dpad-left" data-dir="left" type="button" aria-label="Left">◀</button>
-          <button class="dpad-btn dpad-action" data-action="action" type="button" aria-label="Action">◆</button>
-          <button class="dpad-btn dpad-right" data-dir="right" type="button" aria-label="Right">▶</button>
-          <button class="dpad-btn dpad-down" data-dir="down" type="button" aria-label="Down">▼</button>
+          <button class="dpad-btn dpad-up" data-dir="up" data-lbl="UP" type="button" aria-label="Up">▲</button>
+          <button class="dpad-btn dpad-left" data-dir="left" data-lbl="LEFT" type="button" aria-label="Left">◀</button>
+          <button class="dpad-btn dpad-action" data-action="action" data-lbl="FIRE" type="button" aria-label="Fire">◆</button>
+          <button class="dpad-btn dpad-right" data-dir="right" data-lbl="RIGHT" type="button" aria-label="Right">▶</button>
+          <button class="dpad-btn dpad-down" data-dir="down" data-lbl="DOWN" type="button" aria-label="Down">▼</button>
         </div>
       </footer>
     </div>
