@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { users, userProfiles } from "@/db/schema";
+import { eq, sql } from "drizzle-orm";
 import { ok, fail, preflight, readJson, signToken } from "@/lib/api";
 import { ensureSeed, levelFromXp } from "@/db/seed";
 
@@ -28,6 +28,41 @@ export async function POST(req: Request) {
     if (!matches) return fail(401, "Invalid credentials.");
 
     if (user.status === "banned") return fail(403, "This account has been suspended.");
+
+    // Persistent user recognition: record the returning visit on the profile
+    // row so the PostgreSQL backbone tracks logins reliably.
+    try {
+      const now = new Date();
+      const profileRows = await db
+        .select({ userId: userProfiles.userId })
+        .from(userProfiles)
+        .where(eq(userProfiles.userId, user.id))
+        .limit(1);
+
+      if (profileRows.length > 0) {
+        await db
+          .update(userProfiles)
+          .set({
+            lastLoginAt: now,
+            totalLoginCount: sql`${userProfiles.totalLoginCount} + 1`,
+            updatedAt: now,
+          })
+          .where(eq(userProfiles.userId, user.id));
+      } else {
+        await db
+          .insert(userProfiles)
+          .values({
+            userId: user.id,
+            displayName: user.username,
+            lastLoginAt: now,
+            totalLoginCount: 1,
+          })
+          .onConflictDoNothing();
+      }
+    } catch (err) {
+      // never block authentication on telemetry bookkeeping
+      console.error("[api/auth/login] profile touch failed", err);
+    }
 
     const token = signToken({ id: user.id, username: user.username, role: user.role });
     return ok({

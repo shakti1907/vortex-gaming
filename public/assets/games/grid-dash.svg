@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 432" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bgg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b0621"/><stop offset="1" stop-color="#1c0838"/></linearGradient>
+    <filter id="glowg" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="768" height="432" fill="url(#bgg)"/>
+  <g stroke="#2ee6ff" stroke-width="2" opacity=".5">
+    <line x1="0" y1="330" x2="768" y2="330"/><line x1="0" y1="372" x2="768" y2="372"/><line x1="0" y1="420" x2="768" y2="420"/>
+    <line x1="80" y1="330" x2="20" y2="432"/><line x1="260" y1="330" x2="230" y2="432"/><line x1="440" y1="330" x2="450" y2="432"/><line x1="620" y1="330" x2="670" y2="432"/>
+  </g>
+  <g filter="url(#glowg)">
+    <rect x="140" y="230" width="26" height="100" fill="#ff2e88" opacity=".9"/>
+    <rect x="120" y="230" width="66" height="12" rx="5" fill="#ff2e88"/>
+    <rect x="360" y="160" width="26" height="170" fill="#8a5cff" opacity=".9"/>
+    <rect x="338" y="160" width="70" height="12" rx="5" fill="#8a5cff"/>
+    <rect x="580" y="230" width="26" height="100" fill="#ffb42e" opacity=".9"/>
+    <rect x="558" y="230" width="70" height="12" rx="5" fill="#ffb42e"/>
+  </g>
+  <g filter="url(#glowg)" stroke="#2ee6ff" stroke-width="10" stroke-linecap="round" opacity=".9">
+    <line x1="250" y1="150" x2="330" y2="150"/>
+    <line x1="470" y1="260" x2="545" y2="260"/>
+  </g>
+  <g filter="url(#glowg)">
+    <g transform="translate(268,236)">
+      <circle cx="0" cy="-44" r="17" fill="#ffe600"/>
+      <path d="M0,-26 L-6,10 L-30,44 L-14,44 L2,16 L18,44 L34,44 L10,8 L12,-26 Z" fill="#ffe600"/>
+      <path d="M-2,-22 L-34,4 L-46,-2 L-14,-32 Z" fill="#ffe600" opacity=".85"/>
+      <path d="M6,-22 L40,10 L52,2 L16,-32 Z" fill="#ffe600" opacity=".85"/>
+    </g>
+  </g>
+  <g fill="#2ee6ff" opacity=".7">
+    <circle cx="90" cy="120" r="5"/><circle cx="180" cy="80" r="4"/><circle cx="700" cy="110" r="5"/><circle cx="640" cy="70" r="4"/><circle cx="420" cy="70" r="4"/><circle cx="330" cy="110" r="3"/>
+  </g>
+</svg>

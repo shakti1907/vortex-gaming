@@ -1,0 +1,1562 @@
+diff --git a/next-env.d.ts b/next-env.d.ts
+new file mode 100644
+index 0000000..c4b7818
+--- /dev/null
++++ b/next-env.d.ts
+@@ -0,0 +1,6 @@
++/// <reference types="next" />
++/// <reference types="next/image-types/global" />
++import "./.next/dev/types/routes.d.ts";
++
++// NOTE: This file should not be edited
++// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+diff --git a/public/admin.html b/public/admin.html
+index 5a96bf8..4634014 100644
+--- a/public/admin.html
++++ b/public/admin.html
+@@ -44,11 +44,11 @@
+         </div>
+         <p class="admin-sub">Restricted sector. Administrator credentials required to access live database telemetry.</p>
+         <form id="admin-login-form" class="auth-form" autocomplete="off" style="margin-top:22px">
+-          <label>ADMIN EMAIL<input id="admin-email" type="email" required placeholder="admin@vortex.gg" /></label>
++          <label>ADMIN EMAIL<input id="admin-email" type="email" required placeholder="ops@domain.com" /></label>
+           <label>PASSWORD<input id="admin-password" type="password" required placeholder="••••••••" /></label>
+           <p class="auth-error hidden" id="admin-error"></p>
+           <button class="btn btn-neon btn-block" type="submit">AUTHENTICATE</button>
+-          <p class="auth-hint">Seeded admin: <code>admin@vortex.gg</code> · <code>VortexAdmin#2026</code></p>
++          <p class="auth-hint">Credentials are issued by the platform operator and are never displayed here.</p>
+         </form>
+       </div>
+     </section>
+diff --git a/public/assets/games/asteroid-vector.jpg b/public/assets/games/asteroid-vector.jpg
+new file mode 100644
+index 0000000..ea702c5
+Binary files /dev/null and b/public/assets/games/asteroid-vector.jpg differ
+diff --git a/public/assets/games/bullet-hell-rush.jpg b/public/assets/games/bullet-hell-rush.jpg
+new file mode 100644
+index 0000000..21d3ce3
+Binary files /dev/null and b/public/assets/games/bullet-hell-rush.jpg differ
+diff --git a/public/assets/games/cyber-drift.svg b/public/assets/games/cyber-drift.svg
+new file mode 100644
+index 0000000..7a3646e
+--- /dev/null
++++ b/public/assets/games/cyber-drift.svg
+@@ -0,0 +1,29 @@
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 432" preserveAspectRatio="xMidYMid slice">
++  <defs>
++    <linearGradient id="bgd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#07021a"/><stop offset="1" stop-color="#150b31"/></linearGradient>
++    <filter id="glowd" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
++    <radialGradient id="wet" cx=".5" cy="1" r=".9"><stop offset="0" stop-color="#2ee6ff" stop-opacity=".16"/><stop offset="1" stop-color="#2ee6ff" stop-opacity="0"/></radialGradient>
++  </defs>
++  <rect width="768" height="432" fill="url(#bgd)"/>
++  <rect width="768" height="432" fill="url(#wet)"/>
++  <g opacity=".35" stroke="#2ee6ff" stroke-width="2">
++    <line x1="0" y1="330" x2="768" y2="330"/><line x1="0" y1="368" x2="768" y2="368"/><line x1="0" y1="412" x2="768" y2="412"/>
++  </g>
++  <g filter="url(#glowd)" fill="none" stroke-linecap="round">
++    <path d="M-20,300 C160,300 240,360 420,344 C560,332 620,290 800,296" stroke="#ff2e88" stroke-width="14" opacity=".8"/>
++    <path d="M-20,322 C170,322 250,384 430,366 C570,352 630,310 800,318" stroke="#2ee6ff" stroke-width="9" opacity=".85"/>
++    <path d="M-20,346 C180,346 260,408 440,388 C580,372 640,332 800,340" stroke="#ffb42e" stroke-width="5" opacity=".7"/>
++  </g>
++  <g filter="url(#glowd)">
++    <g transform="translate(430,282) rotate(-14)">
++      <rect x="-86" y="-16" width="172" height="44" rx="16" fill="#0b0621" stroke="#2ee6ff" stroke-width="3"/>
++      <path d="M-52,-16 L-30,-42 L34,-42 L58,-16 Z" fill="#0b0621" stroke="#ff2e88" stroke-width="3"/>
++      <rect x="-64" y="26" width="30" height="16" rx="6" fill="#2ee6ff" opacity=".9"/>
++      <rect x="38" y="26" width="30" height="16" rx="6" fill="#ff2e88" opacity=".9"/>
++      <rect x="-96" y="-2" width="18" height="10" rx="4" fill="#ffe600" opacity=".9"/>
++    </g>
++  </g>
++  <g stroke="#8a5cff" stroke-width="3" opacity=".55" stroke-linecap="round">
++    <line x1="120" y1="120" x2="176" y2="86"/><line x1="180" y1="150" x2="252" y2="106"/><line x1="620" y1="120" x2="684" y2="92"/><line x1="560" y1="160" x2="628" y2="122"/><line x1="330" y1="90" x2="372" y2="62"/>
++  </g>
++</svg>
+diff --git a/public/assets/games/cyber-invaders.jpg b/public/assets/games/cyber-invaders.jpg
+new file mode 100644
+index 0000000..7a06a9d
+Binary files /dev/null and b/public/assets/games/cyber-invaders.jpg differ
+diff --git a/public/assets/games/cyber-soar.svg b/public/assets/games/cyber-soar.svg
+new file mode 100644
+index 0000000..ec89cfb
+--- /dev/null
++++ b/public/assets/games/cyber-soar.svg
+@@ -0,0 +1,30 @@
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 432" preserveAspectRatio="xMidYMid slice">
++  <defs>
++    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b0621"/><stop offset="1" stop-color="#1a0b2e"/></linearGradient>
++    <linearGradient id="pil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff2e88"/><stop offset="1" stop-color="#2ee6ff" stop-opacity=".25"/></linearGradient>
++    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
++    <radialGradient id="haze" cx=".5" cy=".42" r=".7"><stop offset="0" stop-color="#2ee6ff" stop-opacity=".22"/><stop offset="1" stop-color="#2ee6ff" stop-opacity="0"/></radialGradient>
++  </defs>
++  <rect width="768" height="432" fill="url(#bg)"/>
++  <rect width="768" height="432" fill="url(#haze)"/>
++  <g filter="url(#glow)">
++    <rect x="150" y="40" width="72" height="200" rx="10" fill="url(#pil)" opacity=".9"/>
++    <rect x="150" y="292" width="72" height="150" rx="10" fill="url(#pil)" opacity=".9"/>
++    <rect x="330" y="20" width="86" height="150" rx="10" fill="url(#pil)" opacity=".75"/>
++    <rect x="330" y="300" width="86" height="170" rx="10" fill="url(#pil)" opacity=".75"/>
++    <rect x="545" y="70" width="76" height="160" rx="10" fill="url(#pil)" opacity=".85"/>
++    <rect x="545" y="262" width="76" height="140" rx="10" fill="url(#pil)" opacity=".85"/>
++  </g>
++  <g filter="url(#glow)">
++    <polygon points="300,246 344,216 388,246 344,236" fill="#2ee6ff"/>
++    <polygon points="316,246 344,232 372,246 344,241" fill="#ffffff" opacity=".85"/>
++    <rect x="332" y="248" width="24" height="34" fill="#ff2e88" opacity=".55"/>
++  </g>
++  <g stroke="#8a5cff" stroke-width="3" opacity=".5" stroke-linecap="round">
++    <line x1="80" y1="216" x2="180" y2="216"/><line x1="60" y1="250" x2="150" y2="250"/><line x1="92" y1="184" x2="170" y2="184"/>
++    <line x1="590" y1="216" x2="700" y2="216"/><line x1="610" y1="252" x2="712" y2="252"/>
++  </g>
++  <g fill="#2ee6ff" opacity=".8">
++    <polygon points="470,120 486,150 454,150"/><polygon points="520,330 536,360 504,360" fill="#ff2e88"/><polygon points="240,110 256,140 224,140" fill="#ffb42e"/>
++  </g>
++</svg>
+diff --git a/public/assets/games/grid-dash.svg b/public/assets/games/grid-dash.svg
+new file mode 100644
+index 0000000..51a7f38
+--- /dev/null
++++ b/public/assets/games/grid-dash.svg
+@@ -0,0 +1,34 @@
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 432" preserveAspectRatio="xMidYMid slice">
++  <defs>
++    <linearGradient id="bgg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b0621"/><stop offset="1" stop-color="#1c0838"/></linearGradient>
++    <filter id="glowg" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
++  </defs>
++  <rect width="768" height="432" fill="url(#bgg)"/>
++  <g stroke="#2ee6ff" stroke-width="2" opacity=".5">
++    <line x1="0" y1="330" x2="768" y2="330"/><line x1="0" y1="372" x2="768" y2="372"/><line x1="0" y1="420" x2="768" y2="420"/>
++    <line x1="80" y1="330" x2="20" y2="432"/><line x1="260" y1="330" x2="230" y2="432"/><line x1="440" y1="330" x2="450" y2="432"/><line x1="620" y1="330" x2="670" y2="432"/>
++  </g>
++  <g filter="url(#glowg)">
++    <rect x="140" y="230" width="26" height="100" fill="#ff2e88" opacity=".9"/>
++    <rect x="120" y="230" width="66" height="12" rx="5" fill="#ff2e88"/>
++    <rect x="360" y="160" width="26" height="170" fill="#8a5cff" opacity=".9"/>
++    <rect x="338" y="160" width="70" height="12" rx="5" fill="#8a5cff"/>
++    <rect x="580" y="230" width="26" height="100" fill="#ffb42e" opacity=".9"/>
++    <rect x="558" y="230" width="70" height="12" rx="5" fill="#ffb42e"/>
++  </g>
++  <g filter="url(#glowg)" stroke="#2ee6ff" stroke-width="10" stroke-linecap="round" opacity=".9">
++    <line x1="250" y1="150" x2="330" y2="150"/>
++    <line x1="470" y1="260" x2="545" y2="260"/>
++  </g>
++  <g filter="url(#glowg)">
++    <g transform="translate(268,236)">
++      <circle cx="0" cy="-44" r="17" fill="#ffe600"/>
++      <path d="M0,-26 L-6,10 L-30,44 L-14,44 L2,16 L18,44 L34,44 L10,8 L12,-26 Z" fill="#ffe600"/>
++      <path d="M-2,-22 L-34,4 L-46,-2 L-14,-32 Z" fill="#ffe600" opacity=".85"/>
++      <path d="M6,-22 L40,10 L52,2 L16,-32 Z" fill="#ffe600" opacity=".85"/>
++    </g>
++  </g>
++  <g fill="#2ee6ff" opacity=".7">
++    <circle cx="90" cy="120" r="5"/><circle cx="180" cy="80" r="4"/><circle cx="700" cy="110" r="5"/><circle cx="640" cy="70" r="4"/><circle cx="420" cy="70" r="4"/><circle cx="330" cy="110" r="3"/>
++  </g>
++</svg>
+diff --git a/public/assets/games/grid-pac-runner.jpg b/public/assets/games/grid-pac-runner.jpg
+new file mode 100644
+index 0000000..5ed83a4
+Binary files /dev/null and b/public/assets/games/grid-pac-runner.jpg differ
+diff --git a/public/assets/games/grid-stacker.jpg b/public/assets/games/grid-stacker.jpg
+new file mode 100644
+index 0000000..6ee7216
+Binary files /dev/null and b/public/assets/games/grid-stacker.jpg differ
+diff --git a/public/assets/games/hyper-speed-dodge.svg b/public/assets/games/hyper-speed-dodge.svg
+new file mode 100644
+index 0000000..41ba842
+--- /dev/null
++++ b/public/assets/games/hyper-speed-dodge.svg
+@@ -0,0 +1,29 @@
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 432" preserveAspectRatio="xMidYMid slice">
++  <defs>
++    <linearGradient id="bgt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#05020e"/><stop offset="1" stop-color="#0d0a2e"/></linearGradient>
++    <filter id="glowt" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
++    <radialGradient id="core" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#2ee6ff"/><stop offset="1" stop-color="#2ee6ff" stop-opacity="0"/></radialGradient>
++  </defs>
++  <rect width="768" height="432" fill="url(#bgt)"/>
++  <g filter="url(#glowt)" fill="none" stroke="#2ee6ff" stroke-width="3" opacity=".9">
++    <rect x="336" y="188" width="96" height="56" rx="8"/>
++    <rect x="276" y="146" width="216" height="140" rx="12" opacity=".8"/>
++    <rect x="196" y="88" width="376" height="256" rx="16" opacity=".6"/>
++    <rect x="96" y="18" width="576" height="396" rx="22" opacity=".42"/>
++    <rect x="-24" y="-72" width="816" height="576" rx="30" stroke="#8a5cff" opacity=".38"/>
++  </g>
++  <g filter="url(#glowt)" stroke="#ff2e88" stroke-width="4" stroke-linecap="round" opacity=".85">
++    <line x1="384" y1="216" x2="60" y2="60"/><line x1="384" y1="216" x2="708" y2="60"/>
++    <line x1="384" y1="216" x2="60" y2="392"/><line x1="384" y1="216" x2="708" y2="392"/>
++    <line x1="384" y1="216" x2="240" y2="-30"/><line x1="384" y1="216" x2="560" y2="-30"/>
++    <line x1="384" y1="216" x2="240" y2="462"/><line x1="384" y1="216" x2="560" y2="462"/>
++  </g>
++  <circle cx="384" cy="216" r="26" fill="url(#core)"/>
++  <g filter="url(#glowt)">
++    <polygon points="250,150 292,140 282,178" fill="#ffb42e"/>
++    <polygon points="540,300 500,308 512,272" fill="#ff2e88"/>
++    <polygon points="470,110 502,122 476,140" fill="#8a5cff"/>
++    <rect x="180" y="250" width="42" height="42" rx="8" fill="#2ee6ff" opacity=".8" transform="rotate(18 201 271)"/>
++    <rect x="560" y="150" width="36" height="36" rx="8" fill="#ffe600" opacity=".7" transform="rotate(-14 578 168)"/>
++  </g>
++</svg>
+diff --git a/public/assets/games/memory-matrix.jpg b/public/assets/games/memory-matrix.jpg
+new file mode 100644
+index 0000000..24a0837
+Binary files /dev/null and b/public/assets/games/memory-matrix.jpg differ
+diff --git a/public/assets/games/neon-flow.jpg b/public/assets/games/neon-flow.jpg
+new file mode 100644
+index 0000000..4bcd090
+Binary files /dev/null and b/public/assets/games/neon-flow.jpg differ
+diff --git a/public/assets/games/neon-pong.jpg b/public/assets/games/neon-pong.jpg
+new file mode 100644
+index 0000000..ebe1135
+Binary files /dev/null and b/public/assets/games/neon-pong.jpg differ
+diff --git a/public/assets/games/neon-snake.jpg b/public/assets/games/neon-snake.jpg
+new file mode 100644
+index 0000000..da40007
+Binary files /dev/null and b/public/assets/games/neon-snake.jpg differ
+diff --git a/public/assets/games/outrun-drive.svg b/public/assets/games/outrun-drive.svg
+new file mode 100644
+index 0000000..103f474
+--- /dev/null
++++ b/public/assets/games/outrun-drive.svg
+@@ -0,0 +1,30 @@
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 432" preserveAspectRatio="xMidYMid slice">
++  <defs>
++    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b0621"/><stop offset=".55" stop-color="#3a0e4d"/><stop offset="1" stop-color="#12042a"/></linearGradient>
++    <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffe600"/><stop offset=".55" stop-color="#ff8a2e"/><stop offset="1" stop-color="#ff2e88" stop-opacity="0"/></radialGradient>
++    <filter id="glow3" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
++  </defs>
++  <rect width="768" height="432" fill="url(#sky)"/>
++  <circle cx="384" cy="238" r="120" fill="url(#sun)" filter="url(#glow3)"/>
++  <g fill="#0b0621">
++    <rect x="264" y="196" width="240" height="9"/><rect x="264" y="216" width="240" height="11"/><rect x="264" y="240" width="240" height="13"/><rect x="264" y="268" width="240" height="16"/><rect x="264" y="302" width="240" height="20"/>
++  </g>
++  <g stroke="#2ee6ff" stroke-width="2.4" opacity=".85" filter="url(#glow3)">
++    <line x1="384" y1="238" x2="60" y2="432"/><line x1="384" y1="238" x2="180" y2="432"/><line x1="384" y1="238" x2="290" y2="432"/>
++    <line x1="384" y1="238" x2="478" y2="432"/><line x1="384" y1="238" x2="588" y2="432"/><line x1="384" y1="238" x2="708" y2="432"/>
++    <line x1="0" y1="270" x2="768" y2="270" opacity=".7"/><line x1="0" y1="316" x2="768" y2="316" opacity=".7"/><line x1="0" y1="380" x2="768" y2="380" opacity=".7"/>
++  </g>
++  <g stroke="#ff2e88" stroke-width="5" stroke-linecap="round" opacity=".9" filter="url(#glow3)">
++    <line x1="330" y1="432" x2="368" y2="330"/><line x1="438" y1="432" x2="400" y2="330"/>
++  </g>
++  <g fill="#0b0621" stroke="#2ee6ff" stroke-width="2">
++    <rect x="342" y="330" width="84" height="26" rx="8"/><rect x="352" y="312" width="64" height="24" rx="7"/>
++  </g>
++  <g stroke="#1a0b2e" stroke-width="7" stroke-linecap="round">
++    <line x1="70" y1="238" x2="70" y2="300"/><line x1="698" y1="238" x2="698" y2="300"/>
++  </g>
++  <g fill="#1a0b2e">
++    <path d="M70,236 q-22,-30 -40,-34 q18,4 22,18 q-20,-18 -36,-16 q18,2 30,16 q-8,-14 -4,-22 q6,12 28,38z"/>
++    <path d="M698,236 q22,-30 40,-34 q-18,4 -22,18 q20,-18 36,-16 q-18,2 -30,16 q8,-14 4,-22 q-6,12 -28,38z"/>
++  </g>
++</svg>
+diff --git a/public/assets/games/quantum-laser.jpg b/public/assets/games/quantum-laser.jpg
+new file mode 100644
+index 0000000..4b2e33e
+Binary files /dev/null and b/public/assets/games/quantum-laser.jpg differ
+diff --git a/public/assets/games/retro-defender.svg b/public/assets/games/retro-defender.svg
+new file mode 100644
+index 0000000..7b862a6
+--- /dev/null
++++ b/public/assets/games/retro-defender.svg
+@@ -0,0 +1,26 @@
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 432" preserveAspectRatio="xMidYMid slice">
++  <defs>
++    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b0621"/><stop offset="1" stop-color="#2a0a22"/></linearGradient>
++    <filter id="glow2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
++    <radialGradient id="boom" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#ffb42e"/><stop offset=".7" stop-color="#ff2e88" stop-opacity=".6"/><stop offset="1" stop-color="#ff2e88" stop-opacity="0"/></radialGradient>
++    <radialGradient id="haze2" cx=".5" cy=".85" r=".8"><stop offset="0" stop-color="#ff2e88" stop-opacity=".18"/><stop offset="1" stop-color="#ff2e88" stop-opacity="0"/></radialGradient>
++  </defs>
++  <rect width="768" height="432" fill="url(#bg2)"/>
++  <rect width="768" height="432" fill="url(#haze2)"/>
++  <g filter="url(#glow2)" stroke="#2ee6ff" stroke-width="3" fill="none" opacity=".9">
++    <path d="M40,240 Q200,80 330,190"/><path d="M250,240 Q400,60 520,170" stroke="#ffb42e"/>
++    <path d="M480,240 Q600,100 720,180" stroke="#ff2e88"/>
++  </g>
++  <g filter="url(#glow2)">
++    <circle cx="330" cy="190" r="34" fill="url(#boom)"/><circle cx="520" cy="170" r="46" fill="url(#boom)"/><circle cx="200" cy="120" r="22" fill="url(#boom)"/>
++  </g>
++  <g fill="#8a5cff" stroke="#2ee6ff" stroke-width="2">
++    <rect x="30" y="320" width="70" height="112"/><rect x="130" y="345" width="60" height="87"/><rect x="220" y="330" width="72" height="102"/><rect x="322" y="350" width="58" height="82"/><rect x="410" y="326" width="74" height="106"/><rect x="514" y="342" width="62" height="90"/><rect x="606" y="332" width="70" height="100"/>
++  </g>
++  <g fill="#2ee6ff" opacity=".6">
++    <rect x="44" y="336" width="12" height="12"/><rect x="66" y="336" width="12" height="12"/><rect x="142" y="358" width="10" height="10"/><rect x="234" y="344" width="12" height="12"/><rect x="424" y="340" width="12" height="12"/><rect x="620" y="346" width="12" height="12"/>
++  </g>
++  <g stroke="#ffb42e" stroke-width="3" stroke-linecap="round" opacity=".8">
++    <line x1="90" y1="316" x2="250" y2="150"/><line x1="420" y1="318" x2="520" y2="175"/><line x1="640" y1="326" x2="720" y2="185"/>
++  </g>
++</svg>
+diff --git a/public/css/vortex.css b/public/css/vortex.css
+index d93651d..17f8257 100644
+--- a/public/css/vortex.css
++++ b/public/css/vortex.css
+@@ -1181,3 +1181,75 @@ tr.lb-me td:first-child { border-left: 3px solid var(--secondary); }
+ #pwa-banner .pwa-cta { color: var(--secondary); font-family: var(--font-display); font-size: 0.64rem; letter-spacing: 0.16em; }
+ #pwa-banner .pwa-x { background: none; border: 0; color: var(--text-dim); font-size: 0.9rem; padding: 2px 5px; }
+ #pwa-banner.hidden { display: none; }
++
++/* ------------------------------------------------------------------ */
++/* 20. GAME THUMBNAILS · TOUCH PAD · MOBILE GAME LOCK · AUTH SECTIONS   */
++/* ------------------------------------------------------------------ */
++
++/* per-game cyberpunk thumbnail (falls back to the gradient + glyph below) */
++.card-thumb {
++  position: absolute; inset: 0; z-index: 0;
++  width: 100%; height: 100%; object-fit: cover;
++  opacity: 0.78; filter: saturate(1.25) contrast(1.06);
++  transition: opacity 0.35s ease, transform 0.55s ease;
++}
++.game-card-tile:hover .card-thumb { opacity: 0.96; transform: scale(1.06); }
++.card-preview .card-glyph { z-index: 1; opacity: 0.9; mix-blend-mode: screen; }
++.card-preview .card-scan-badge,
++.card-preview .card-diff,
++.card-preview .card-live-dot { z-index: 2; }
++.card-preview::after { z-index: 2; }
++
++/* per-game banner behind the game-modal head (set via --gm-img) */
++.game-head { position: relative; overflow: hidden; }
++.game-head::before {
++  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
++  background-image:
++    linear-gradient(100deg, rgba(8, 4, 22, 0.94) 20%, rgba(8, 4, 22, 0.62) 62%, rgba(8, 4, 22, 0.88)),
++    var(--gm-img, none);
++  background-size: cover;
++  background-position: center 32%;
++}
++.game-head > * { position: relative; z-index: 1; }
++
++/* virtual pad: labelled, thumb-friendly, cyberpunk-styled */
++.dpad-btn {
++  position: relative;
++  display: flex; flex-direction: column; align-items: center; justify-content: center;
++  gap: 1px; line-height: 1;
++  -webkit-tap-highlight-color: transparent;
++}
++.dpad-btn::after {
++  content: attr(data-lbl);
++  font-family: var(--font-mono); font-size: 0.42rem; letter-spacing: 0.12em;
++  color: var(--text-dim);
++}
++.dpad-btn.pressed::after, .dpad-btn:active::after { color: var(--secondary); }
++
++/* mobile containment: no page scroll / pull-to-refresh / pinch-zoom in-game */
++body.game-active { overflow: hidden !important; overscroll-behavior: none; }
++body.game-active #game-modal { touch-action: none; }
++body.game-active #gm-canvas,
++body.game-active #gm-canvas-wrap {
++  touch-action: none;
++  -webkit-user-select: none; user-select: none;
++  -webkit-tap-highlight-color: transparent;
++}
++
++@media (pointer: coarse) {
++  #dpad { grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(2, 56px); gap: 10px; }
++  .dpad-btn { font-size: 1.05rem; border-radius: 14px; }
++  .dpad-btn::after { font-size: 0.5rem; }
++  #dpad.compact { grid-template-rows: repeat(3, 52px); }
++}
++
++/* login / register section separation */
++.auth-section-tag {
++  margin: 0;
++  font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.26em;
++  color: var(--secondary);
++}
++.auth-section-sub {
++  margin: -6px 0 2px;
++  font-size: 0.82rem; color: var(--text-dim); line-height: 1.45;
++}
+diff --git a/public/index.html b/public/index.html
+index 5a34687..fa831b6 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -283,24 +283,29 @@
+     <div class="modal-card auth-card">
+       <button class="modal-close" data-close-auth type="button" aria-label="Close">✕</button>
+       <div class="auth-tabs">
+-        <button class="auth-tab active" data-tab="login" type="button">ACCESS</button>
+-        <button class="auth-tab" data-tab="register" type="button">ENLIST</button>
++        <button class="auth-tab active" data-tab="login" type="button">LOGIN</button>
++        <button class="auth-tab" data-tab="register" type="button">REGISTER</button>
+       </div>
+ 
+       <form id="form-login" class="auth-form" autocomplete="off">
+-        <label>EMAIL<input id="login-email" type="email" required placeholder="pilot@vortex.gg" /></label>
++        <p class="auth-section-tag">RETURNING PILOT — ACCESS</p>
++        <p class="auth-section-sub">Sign in with the identity you registered. We'll greet you by your handle.</p>
++        <label>EMAIL<input id="login-email" type="email" required placeholder="pilot@domain.com" /></label>
+         <label>PASSWORD<input id="login-password" type="password" required placeholder="••••••••" /></label>
+         <p class="auth-error hidden" id="login-error"></p>
+         <button class="btn btn-neon btn-block" type="submit">JACK IN</button>
+-        <p class="auth-hint">Admin console: <code>admin@vortex.gg</code></p>
++        <p class="auth-hint">New to the grid? Switch to <strong>REGISTER</strong> above.</p>
+       </form>
+ 
+       <form id="form-register" class="auth-form hidden" autocomplete="off">
++        <p class="auth-section-tag">NEW RECRUIT — REGISTER</p>
++        <p class="auth-section-sub">Create your grid identity. Your handle and progress persist on the PostgreSQL backbone.</p>
+         <label>USERNAME<input id="reg-username" type="text" required minlength="3" maxlength="24" placeholder="neon_pilot" /></label>
+-        <label>EMAIL<input id="reg-email" type="email" required placeholder="pilot@vortex.gg" /></label>
++        <label>EMAIL<input id="reg-email" type="email" required placeholder="pilot@domain.com" /></label>
+         <label>PASSWORD<input id="reg-password" type="password" required minlength="6" placeholder="min. 6 characters" /></label>
+         <p class="auth-error hidden" id="reg-error"></p>
+         <button class="btn btn-neon btn-block" type="submit">CREATE ACCOUNT</button>
++        <p class="auth-hint">Already registered? Switch to <strong>LOGIN</strong> above.</p>
+       </form>
+     </div>
+   </div>
+@@ -343,11 +348,11 @@
+       <footer class="game-foot">
+         <span id="gm-hint">ARROWS / WASD — steer</span>
+         <div id="dpad" aria-label="Touch controls">
+-          <button class="dpad-btn dpad-up" data-dir="up" type="button" aria-label="Up">▲</button>
+-          <button class="dpad-btn dpad-left" data-dir="left" type="button" aria-label="Left">◀</button>
+-          <button class="dpad-btn dpad-action" data-action="action" type="button" aria-label="Action">◆</button>
+-          <button class="dpad-btn dpad-right" data-dir="right" type="button" aria-label="Right">▶</button>
+-          <button class="dpad-btn dpad-down" data-dir="down" type="button" aria-label="Down">▼</button>
++          <button class="dpad-btn dpad-up" data-dir="up" data-lbl="UP" type="button" aria-label="Up">▲</button>
++          <button class="dpad-btn dpad-left" data-dir="left" data-lbl="LEFT" type="button" aria-label="Left">◀</button>
++          <button class="dpad-btn dpad-action" data-action="action" data-lbl="FIRE" type="button" aria-label="Fire">◆</button>
++          <button class="dpad-btn dpad-right" data-dir="right" data-lbl="RIGHT" type="button" aria-label="Right">▶</button>
++          <button class="dpad-btn dpad-down" data-dir="down" data-lbl="DOWN" type="button" aria-label="Down">▼</button>
+         </div>
+       </footer>
+     </div>
+diff --git a/public/js/db.js b/public/js/db.js
+index c22adcd..8034100 100644
+--- a/public/js/db.js
++++ b/public/js/db.js
+@@ -13,9 +13,47 @@
+   var LS_PENDING = "vg_pending_sync";
+   var API_TIMEOUT_MS = 9000;
+ 
++  /* ------------------------------------------------------------------
++     Storage-safe helpers. The module MUST survive blocked/sandboxed
++     storage (embedded frames, private modes) — a throw here used to kill
++     the whole DB layer and cascade into "checking…" / "SYNCING…" forever.
++     ------------------------------------------------------------------ */
++  var memoryStore = {};
++  var storageOK = true;
++
++  function lsGet(key) {
++    if (!storageOK) return memoryStore[key] === undefined ? null : memoryStore[key];
++    try {
++      return window.localStorage.getItem(key);
++    } catch (err) {
++      storageOK = false;
++      return memoryStore[key] === undefined ? null : memoryStore[key];
++    }
++  }
++
++  function lsSet(key, value) {
++    memoryStore[key] = String(value);
++    if (!storageOK) return;
++    try {
++      window.localStorage.setItem(key, value);
++    } catch (err) {
++      storageOK = false;
++    }
++  }
++
++  function lsRemove(key) {
++    delete memoryStore[key];
++    if (!storageOK) return;
++    try {
++      window.localStorage.removeItem(key);
++    } catch (err) {
++      storageOK = false;
++    }
++  }
++
+   function readJSON(key, fallback) {
+     try {
+-      var raw = localStorage.getItem(key);
++      var raw = lsGet(key);
+       return raw ? JSON.parse(raw) : fallback;
+     } catch (err) {
+       return fallback;
+@@ -24,7 +62,7 @@
+ 
+   function writeJSON(key, value) {
+     try {
+-      localStorage.setItem(key, JSON.stringify(value));
++      lsSet(key, JSON.stringify(value));
+     } catch (err) {
+       /* storage may be full/blocked — non-fatal */
+     }
+@@ -33,7 +71,7 @@
+   var listeners = [];
+ 
+   var VortexDB = {
+-    token: localStorage.getItem(LS_TOKEN) || null,
++    token: lsGet(LS_TOKEN) || null,
+     user: readJSON(LS_USER, null),
+ 
+     /* --------------------------- events --------------------------- */
+@@ -57,40 +95,48 @@
+       var headers = { "Content-Type": "application/json" };
+       if (this.token) headers["Authorization"] = "Bearer " + this.token;
+ 
+-      var controller = new AbortController();
+-      var timer = setTimeout(function () {
+-        controller.abort();
+-      }, API_TIMEOUT_MS);
+-
+-      return fetch(path, {
+-        method: method,
+-        headers: headers,
+-        body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
+-        signal: controller.signal,
+-        credentials: "same-origin",
+-      })
+-        .then(function (res) {
+-          clearTimeout(timer);
+-          return res
+-            .json()
+-            .catch(function () {
+-              return null;
+-            })
+-            .then(function (data) {
+-              if (!res.ok) {
+-                return {
+-                  ok: false,
+-                  status: res.status,
+-                  error: (data && data.error) || "Request failed (" + res.status + ")",
+-                };
+-              }
+-              return data;
+-            });
++      // Never throw synchronously: the UI depends on a settled promise so
++      // status readouts can always resolve (offline is a valid state).
++      try {
++        var controller = typeof AbortController === "function" ? new AbortController() : null;
++        var timer = controller
++          ? setTimeout(function () {
++              controller.abort();
++            }, API_TIMEOUT_MS)
++          : null;
++
++        return fetch(path, {
++          method: method,
++          headers: headers,
++          body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
++          signal: controller ? controller.signal : undefined,
++          credentials: "same-origin",
+         })
+-        .catch(function () {
+-          clearTimeout(timer);
+-          return null; // network down / aborted — caller falls back to local
+-        });
++          .then(function (res) {
++            if (timer) clearTimeout(timer);
++            return res
++              .json()
++              .catch(function () {
++                return null;
++              })
++              .then(function (data) {
++                if (!res.ok) {
++                  return {
++                    ok: false,
++                    status: res.status,
++                    error: (data && data.error) || "Request failed (" + res.status + ")",
++                  };
++                }
++                return data;
++              });
++          })
++          .catch(function () {
++            if (timer) clearTimeout(timer);
++            return null; // network down / aborted — caller falls back to local
++          });
++      } catch (err) {
++        return Promise.resolve(null);
++      }
+     },
+ 
+     /* ---------------------------- auth ---------------------------- */
+@@ -127,15 +173,15 @@
+     logout: function () {
+       this.token = null;
+       this.user = null;
+-      localStorage.removeItem(LS_TOKEN);
+-      localStorage.removeItem(LS_USER);
++      lsRemove(LS_TOKEN);
++      lsRemove(LS_USER);
+       this.emitAuth();
+     },
+ 
+     setSession: function (token, user) {
+       this.token = token;
+       this.user = user;
+-      localStorage.setItem(LS_TOKEN, token);
++      lsSet(LS_TOKEN, token);
+       writeJSON(LS_USER, user);
+       this.emitAuth();
+     },
+@@ -239,10 +285,7 @@
+     leaderboard: function (gameKey, scope) {
+       var self = this;
+       var suffix = scope === "session" ? "?scope=session" : "";
+-      return this.api("/api/leaderboard/" + encodeURIComponent(gameKey) + suffix).then(function (res) {
+-        if (res && res.ok) {
+-          return { entries: res.entries || [], game: res.game, live: true, source: res.source, scope: res.scope, me: self.user ? self.user.username : null };
+-        }
++      var localFallback = function () {
+         // Offline fallback: surface the local solo record.
+         var best = self.getBest(gameKey);
+         var entries = [];
+@@ -256,13 +299,25 @@
+           });
+         }
+         return { entries: entries, game: null, live: false, me: null };
+-      });
++      };
++      return this.api("/api/leaderboard/" + encodeURIComponent(gameKey) + suffix)
++        .then(function (res) {
++          if (res && res.ok) {
++            return { entries: res.entries || [], game: res.game, live: true, source: res.source, scope: res.scope, me: self.user ? self.user.username : null };
++          }
++          return localFallback();
++        })
++        .catch(localFallback); // always settle — callers update UI state from this
+     },
+ 
+     ping: function () {
+-      return this.api("/api/health").then(function (res) {
+-        return !!(res && res.ok);
+-      });
++      return this.api("/api/health")
++        .then(function (res) {
++          return !!(res && res.ok);
++        })
++        .catch(function () {
++          return false;
++        });
+     },
+   };
+ 
+diff --git a/public/js/device-scanner.js b/public/js/device-scanner.js
+index 3ecf81d..d1df77b 100644
+--- a/public/js/device-scanner.js
++++ b/public/js/device-scanner.js
+@@ -132,6 +132,21 @@
+ 
+   window.VortexDevice = profile;
+ 
++  // Resolve the hardware readouts the moment the profile exists — these must
++  // never be left stuck on "SCANNING", regardless of any later module state.
++  (function publishProfile() {
++    var label = profile.tier.toUpperCase() + " TIER";
++    var perf = document.getElementById("perf-readout");
++    if (perf) perf.textContent = label;
++    var heroPerf = document.getElementById("stat-perf");
++    if (heroPerf) heroPerf.textContent = label;
++    var footerHw = document.getElementById("footer-hw");
++    if (footerHw) {
++      footerHw.textContent = "Hardware profile: " + label + " · " + profile.cores +
++        " cores · " + profile.memory + "GB · DPR " + profile.dpr;
++    }
++  })();
++
+   document.dispatchEvent(
+     new CustomEvent("vortex:device", { detail: profile })
+   );
+diff --git a/public/js/games-action.js b/public/js/games-action.js
+index d4c2393..ac72c0a 100644
+--- a/public/js/games-action.js
++++ b/public/js/games-action.js
+@@ -16,7 +16,7 @@
+   FX.register({
+     key: "cyber-invaders",
+     title: "Cyber Invaders",
+-    hint: "← → / A D move · SPACE or ◆ fire · destroy shields' cover wisely · survive the BOSS",
++    hint: "← → / A D · SPACE / ◆ fire · drag on the pad to steer + auto-fire (touch) · survive escalating waves + the SENTINEL",
+     pad: true,
+ 
+     setup: function (api) {
+@@ -31,6 +31,8 @@
+       d.boss = null;
+       d.marchT = 0;
+       d.dir = 1;
++      d.fireT = 1.2;
++      d.waveQueued = false;  // wave transitions are deferred to a safe point
+       buildWave(api);
+       buildShields(api);
+     },
+@@ -44,6 +46,15 @@
+     update: function (dt, t, api) {
+       var d = api.data, v = api.view, I = api.input;
+ 
++      /* ---- wave transition (safe point: start of frame, never mid-iteration).
++             Resets the enemy array, collision state and spawn timers together
++             so nothing from the previous wave can poison the next one. ---- */
++      if (d.waveQueued) {
++        d.waveQueued = false;
++        d.wave++;
++        startWave(api);
++      }
++
+       /* ---- ship ---- */
+       var ax = I.axisX();
+       if (I.pointer.down) ax = U.clamp((I.pointer.x - d.ship.x) / 60, -1, 1);
+@@ -102,8 +113,7 @@
+             api.xp(12);
+             if (api.audio) api.audio.explosion();
+             d.boss = null;
+-            d.wave++;
+-            buildWave(api);
++            d.waveQueued = true;   // rebuild the field at the next safe point — never mid-bullet-loop
+           }
+         }
+         if (consumed) d.bullets.splice(b, 1);
+@@ -112,11 +122,11 @@
+       /* ---- invader march ---- */
+       var alive = 0, lowest = 0;
+       for (var m = 0; m < d.invaders.length; m++) if (d.invaders[m].alive) { alive++; lowest = Math.max(lowest, d.invaders[m].y); }
+-      if (alive === 0 && !d.boss) {
+-        d.wave++;
+-        if (d.wave % 3 === 0) spawnBoss(api); else buildWave(api);
++      if (alive === 0 && !d.boss && !d.waveQueued) {
++        d.waveQueued = true;   // field cleared — queue the next wave (handled at the start of the next frame)
+       }
+ 
++      /* ---- wave escalation: the grid marches faster as waves progress ---- */
+       var speed = (26 + (d.invaders.length - alive) * 1.6 + d.wave * 8);
+       d.marchT += dt;
+       var shiftX = d.dir * speed * dt;
+@@ -135,13 +145,22 @@
+       }
+       if (lowest > d.ship.y - 40 && alive > 0) damage(api, true);
+ 
+-      /* ---- invader fire ---- */
++      /* ---- invader fire: cadence tightens and volley density grows per wave ---- */
+       d.fireT = (d.fireT || 0) - dt;
+       if (d.fireT <= 0 && alive > 0) {
+-        d.fireT = Math.max(0.28, 1.4 - d.wave * 0.12);
++        d.fireT = Math.max(0.24, 1.4 - d.wave * 0.12);
+         var shooters = d.invaders.filter(function (x) { return x.alive; });
+-        var pick = shooters[(Math.random() * shooters.length) | 0];
+-        if (pick) d.bombs.push({ x: pick.x, y: pick.y + 12, vx: 0, vy: 180 + d.wave * 14 });
++        var volleys = Math.min(3, shooters.length, 1 + Math.floor(d.wave / 3));
++        var used = {};
++        for (var vv = 0; vv < volleys; vv++) {
++          var pi = (Math.random() * shooters.length) | 0;
++          var spins = 0;
++          while (used[pi] && spins < shooters.length) { pi = (pi + 1) % shooters.length; spins++; }
++          if (used[pi]) break;
++          used[pi] = true;
++          var pick = shooters[pi];
++          d.bombs.push({ x: pick.x, y: pick.y + 12, vx: (Math.random() - 0.5) * 26, vy: Math.min(340, 170 + d.wave * 14) });
++        }
+       }
+ 
+       /* ---- boss behaviour ---- */
+@@ -168,9 +187,13 @@
+         }
+       }
+ 
+-      /* ---- bombs ---- */
++      /* ---- bombs ----
++         NOTE: damage() wipes the bombs array, so this loop must tolerate a
++         shrunk/emptied array mid-iteration (the old code dereferenced a hole
++         and killed the RAF loop — the classic "frozen screen" bug). */
+       for (var k = d.bombs.length - 1; k >= 0; k--) {
+         var bm = d.bombs[k];
++        if (!bm) continue;
+         bm.x += bm.vx * dt; bm.y += bm.vy * dt;
+         api.fx.trail(bm.x, bm.y, api.colors[0], 3.5, 0.2);
+         if (bm.y > v.h + 14 || bm.x < -14 || bm.x > v.w + 14) { d.bombs.splice(k, 1); continue; }
+@@ -178,6 +201,7 @@
+         if (U.circleHit(bm.x, bm.y, 5, d.ship.x, d.ship.y, 12)) {
+           d.bombs.splice(k, 1);
+           damage(api, false);
++          break;   // damage() cleared the rest of the swarm — exit cleanly
+         }
+       }
+ 
+@@ -273,17 +297,42 @@
+     [[-12, -4], [-4, -10], [4, -10], [12, -4], [6, 10], [-6, 10]],
+   ];
+ 
++  /* ---- clean wave transition: runs ONLY at the start-of-frame safe point ---- */
++  function startWave(api) {
++    var d = api.data, v = api.view;
++
++    // reset collision state left over from the previous wave
++    d.bullets.length = 0;
++    d.bombs.length = 0;
++    d.drops.length = 0;
++    d.fireT = Math.max(0.6, 1.4 - d.wave * 0.12);
++    d.marchT = 0;
++    d.dir = 1;
++
++    if (d.wave % 3 === 0) {
++      spawnBoss(api);          // every 3rd wave: SENTINEL boss
++    } else {
++      buildWave(api);
++      buildShields(api);       // shields are rebuilt between assault waves
++      api.fx.popup(v.w / 2, v.h * 0.44, "WAVE " + d.wave, api.colors[1], 20);
++      api.sfx(520 + Math.min(8, d.wave) * 40, 0.08, "triangle", 0.05);
++    }
++  }
++
++  /* ---- progressive spawn: waves 1..N grow in rank & file every 2 waves ---- */
+   function buildWave(api) {
+     var d = api.data, v = api.view;
+     d.invaders = [];
+-    var cols = 8, rows = 4;
+-    var gapX = Math.min(64, (v.w - 80) / cols);
++    var cols = U.clamp(6 + Math.floor((d.wave - 1) / 2), 6, 9);
++    var rows = U.clamp(3 + Math.floor((d.wave - 1) / 2), 3, 6);
++    var gapX = Math.max(28, Math.min(64, (v.w - 60) / cols));
++    var gapY = rows >= 6 ? 32 : 38;
+     var startX = (v.w - (cols - 1) * gapX) / 2;
+     for (var r = 0; r < rows; r++) {
+       for (var c = 0; c < cols; c++) {
+         d.invaders.push({
+-          x: startX + c * gapX, y: 58 + r * 40, r: 13,
+-          tier: rows - r, col: c, alive: true,
++          x: startX + c * gapX, y: 58 + r * gapY, r: 13,
++          tier: ((rows - r) + d.wave - 1) % 4 + 1, col: c, alive: true,
+         });
+       }
+     }
+@@ -295,6 +344,7 @@
+     d.boss = { x: v.w / 2, y: 80, w: 130, hp: 40 + d.wave * 6, max: 40 + d.wave * 6, fire: 1, phase: 0 };
+     api.fx.flash(api.colors[0], 0.5);
+     api.fx.shake(12);
++    api.fx.popup(v.w / 2, v.h * 0.4, "WAVE " + d.wave, api.colors[1], 20);
+     api.fx.popup(v.w / 2, v.h / 2, "SENTINEL INBOUND", api.colors[0], 22);
+     if (api.audio) api.audio.explosion();
+   }
+@@ -333,7 +383,7 @@
+     var d = api.data;
+     d.lives--;
+     d.weapon = Math.max(0, d.weapon - 1);
+-    d.bombs.length = 0;
++    d.bombs.length = 0;   // safe: the bombs loop breaks as soon as damage() runs
+     api.breakCombo();
+     api.fx.burst(d.ship.x, d.ship.y, { count: 40, colors: ["#ff2b5e", api.colors[2]], speed: 300 });
+     api.fx.shake(14);
+diff --git a/public/js/vortex-engine.js b/public/js/vortex-engine.js
+index dfda066..0078d5f 100644
+--- a/public/js/vortex-engine.js
++++ b/public/js/vortex-engine.js
+@@ -207,6 +207,7 @@
+     },
+ 
+     publishStats: function () {
++      if (!this.fps) return;   // wait for a real sample — never show "0 FPS"
+       var el = document.getElementById("fps-readout");
+       if (el) el.textContent = this.fps + " FPS";
+       var hero = document.getElementById("stat-fps");
+@@ -514,11 +515,43 @@
+     },
+   };
+ 
++  /* ------------------------------------------------------------------ */
++  /* FALLBACK FPS METER — the render-core readouts must resolve into     */
++  /* live numbers even when the ambient stage canvas is unavailable.     */
++  /* ------------------------------------------------------------------ */
++  function startFallbackFpsMeter() {
++    var frames = 0;
++    var last = performance.now();
++    var published = false;
++
++    function tick(now) {
++      frames++;
++      if (now - last >= 500) {
++        Stage.fps = Math.round((frames * 1000) / (now - last));
++        frames = 0;
++        last = now;
++        Stage.publishStats();
++        published = true;
++      }
++      requestAnimationFrame(tick);
++    }
++    requestAnimationFrame(tick);
++
++    // last-resort stable value if rAF is heavily throttled
++    setTimeout(function () {
++      if (!published) {
++        Stage.fps = Stage.fps || 0;
++        Stage.publishStats();
++      }
++    }, 2200);
++  }
++
+   /* ------------------------------------------------------------------ */
+   /* BOOT                                                               */
+   /* ------------------------------------------------------------------ */
+   function boot() {
+     Stage.init();
++    if (!Stage.running) startFallbackFpsMeter();
+ 
+     // theme switcher
+     var dots = document.querySelectorAll(".theme-dot");
+diff --git a/public/js/vortex-interactions.js b/public/js/vortex-interactions.js
+index 4744d64..e942e30 100644
+--- a/public/js/vortex-interactions.js
++++ b/public/js/vortex-interactions.js
+@@ -26,8 +26,31 @@
+   var cardEls = {};  // key -> tile element
+   var bestEls = {};  // key -> <b> element for live best refresh
+ 
++  function getManifest() {
++    if (!MANIFEST.length && window.VortexManifest) MANIFEST = window.VortexManifest;
++    return MANIFEST;
++  }
++
+   function renderCards() {
+-    for (var i = 0; i < MANIFEST.length; i++) {
++    var list = getManifest();
++
++    // Guard against load-order anomalies: never leave the grid blank —
++    // poll briefly for the manifest module before mounting the tiles.
++    if (!list.length) {
++      var tries = 0;
++      var timer = setInterval(function () {
++        tries++;
++        if (getManifest().length || tries > 40) {
++          clearInterval(timer);
++          renderCards();
++          applyFilter();
++          initReveal();
++        }
++      }, 50);
++      return;
++    }
++
++    for (var i = 0; i < list.length; i++) {
+       (function (g, idx) {
+         var grid = $(g.gridId);
+         if (!grid) return;
+@@ -44,6 +67,7 @@
+ 
+         tile.innerHTML =
+           '<div class="card-preview" style="--prev-a:' + hexToRgba(g.color, 0.22) + '; --prev-b:' + g.color + '">' +
++            '<img class="card-thumb" data-thumb-key="' + g.key + '" src="assets/games/' + g.key + '.jpg" alt="" loading="lazy" decoding="async" onerror="if(!this.dataset.f){this.dataset.f=\'1\';this.src=\'assets/games/\'+this.getAttribute(\'data-thumb-key\')+\'.svg\';}else{this.remove();}" />' +
+             '<span class="card-scan-badge">LIVE FEED</span>' +
+             '<span class="card-diff">' + g.diff + '</span>' +
+             '<div class="card-glyph ' + g.glyph + '"></div>' +
+@@ -62,7 +86,7 @@
+         cardEls[g.key] = tile;
+         var b = tile.querySelector('b[data-best="' + g.key + '"]');
+         if (b) bestEls[g.key] = b;
+-      })(MANIFEST[i], i);
++      })(list[i], i);
+     }
+   }
+ 
+@@ -157,7 +181,12 @@
+     }
+ 
+     var empty = $("empty-state");
+-    if (empty) empty.classList.toggle("hidden", visible > 0);
++    if (empty) {
++      // "NO SIGNALS FOUND" is reserved for ACTIVE queries that match nothing —
++      // never on the initial render (or when every tile simply failed to mount).
++      var activeQuery = q.length > 0 || activeTag !== "all";
++      empty.classList.toggle("hidden", !(activeQuery && visible === 0));
++    }
+     var clearBtn = $("search-clear");
+     if (clearBtn) clearBtn.classList.toggle("hidden", q.length === 0);
+     return bestTile;
+@@ -235,11 +264,25 @@
+     if (dpad) dpad.classList.toggle("hidden", !factory.pad);
+ 
+     var modal = $("game-modal");
+-    if (modal) modal.classList.remove("hidden");
++    if (modal) {
++      modal.classList.remove("hidden");
++      // per-game cyberpunk banner behind the modal head (svg base, jpg upgrade)
++      modal.style.setProperty("--gm-img", "url('assets/games/" + meta.key + ".svg')");
++      (function (key) {
++        var probe = new Image();
++        probe.onload = function () {
++          if (session.game && session.game.key === key) {
++            modal.style.setProperty("--gm-img", "url('assets/games/" + key + ".jpg')");
++          }
++        };
++        probe.src = "assets/games/" + key + ".jpg";
++      })(meta.key);
++    }
+     var over = $("game-over-panel");
+     if (over) over.classList.add("hidden");
+ 
+     document.body.style.overflow = "hidden";
++    document.body.classList.add("game-active");   // locks mobile scroll/zoom
+ 
+     // ---- SILENT TELEMETRY EMITTER (non-blocking; listeners attach elsewhere) ----
+     try {
+@@ -359,6 +402,7 @@
+     var panel = $("game-over-panel");
+     if (panel) panel.classList.add("hidden");
+     document.body.style.overflow = "";
++    document.body.classList.remove("game-active");
+     var canvas = $("gm-canvas");
+     if (canvas) {
+       var ctx = canvas.getContext("2d");
+@@ -386,6 +430,20 @@
+       }
+     });
+ 
++    // Mobile containment: while a game is active, kill page scroll, pull-to-
++    // refresh and pinch-zoom inside the game surface (CSS covers most of it;
++    // this blocks the non-passive gestures browsers still allow by default).
++    var gameModal = $("game-modal");
++    if (gameModal) {
++      gameModal.addEventListener("touchmove", function (e) {
++        if (document.body.classList.contains("game-active")) e.preventDefault();
++      }, { passive: false });
++      gameModal.addEventListener("gesturestart", function (e) { e.preventDefault(); });
++      gameModal.addEventListener("dblclick", function (e) {
++        if (document.body.classList.contains("game-active")) e.preventDefault();
++      });
++    }
++
+     // dpad routing → engines listen on window 'vortex-dir' / 'vortex-dir-up'.
+     // Press AND release are broadcast so games can read *held* state.
+     var dpadButtons = document.querySelectorAll("#dpad .dpad-btn");
+@@ -436,25 +494,34 @@
+     return isNaN(d.getTime()) ? "—" : d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+   }
+ 
++  function setLbStatus(text, live) {
++    var status = $("lb-status");
++    if (!status) return;
++    status.textContent = text;
++    status.classList.toggle("live", !!live);
++  }
++
+   function loadLeaderboard() {
+     var select = $("lb-select");
+     var body = $("lb-body");
+-    var status = $("lb-status");
+-    if (!select || !body || !DB) return;
++    if (!select || !body) return;
+     var key = select.value;
+     var scopeEl = $("lb-scope");
+     var scope = scopeEl ? scopeEl.value : "global";
+-    if (status) { status.textContent = "SYNCING…"; status.classList.remove("live"); }
++    setLbStatus("SYNCING…", false);
+ 
+-    DB.leaderboard(key, scope).then(function (res) {
++    // Resolve into a rendered board (or a graceful empty state) no matter
++    // what the transport does — the old code could stall on "SYNCING…".
++    var settle = function (res) {
++      try {
+       if (!body) return;
+       body.innerHTML = "";
+-      if (status) {
+-        status.textContent = res.live
++      setLbStatus(
++        res.live
+           ? "● LIVE — " + (res.source === "validated-telemetry" ? "VALIDATED TELEMETRY" : "POSTGRES GRID")
+-          : "○ LOCAL RECORDS";
+-        status.classList.toggle("live", res.live);
+-      }
++          : "○ LOCAL RECORDS",
++        res.live
++      );
+       if (!res.entries.length) {
+         body.innerHTML = '<tr class="lb-empty"><td colspan="5">No records on this grid yet — be the first.</td></tr>';
+         return;
+@@ -471,7 +538,23 @@
+           '<td class="lb-date-col">' + fmtDate(e.createdAt) + '</td>';
+         body.appendChild(tr);
+       }
+-    });
++      } catch (err) {
++        console.error("[leaderboard]", err);
++        setLbStatus("○ LOCAL RECORDS", false);
++      }
++    };
++
++    try {
++      if (!DB) {
++        settle({ entries: [], live: false, me: null });
++        return;
++      }
++      DB.leaderboard(key, scope).then(settle).catch(function () {
++        settle({ entries: [], live: false, me: null });
++      });
++    } catch (err) {
++      settle({ entries: [], live: false, me: null });
++    }
+   }
+ 
+   function escapeHtml(s) {
+@@ -558,7 +641,8 @@
+         DB.login(email, pass).then(function (res) {
+           if (res.ok) {
+             modal.classList.add("hidden");
+-            window.VortexToast("Welcome back, " + res.user.username);
++            // greet the returning pilot by handle (persistent identity)
++            window.VortexToast("Welcome back, " + res.user.username + " — grid access restored.");
+             refreshAuthUI();
+           } else {
+             showAuthError("login-error", res.error || "Invalid credentials.");
+@@ -655,18 +739,51 @@
+     var perf = $("perf-readout");
+     var heroPerf = $("stat-perf");
+     var footerHw = $("footer-hw");
+-    var footerApi = $("footer-api");
+     var label = (DEVICE.tier || "medium").toUpperCase() + " TIER";
+     if (perf) perf.textContent = label;
+     if (heroPerf) heroPerf.textContent = label;
+     if (footerHw) {
+       footerHw.textContent = "Hardware profile: " + label + " · " + (DEVICE.cores || "?") + " cores · " + (DEVICE.memory || "?") + "GB · DPR " + (DEVICE.dpr || 1);
+     }
+-    if (footerApi && DB) {
+-      DB.ping().then(function (live) {
+-        footerApi.textContent = live ? "API: online — PostgreSQL linked" : "API: offline — local mode";
+-      });
++
++    /* Footer API status: must ALWAYS resolve out of "checking…" — online,
++       offline and degraded are all valid, a hanging request is not. */
++    var footerApi = $("footer-api");
++    function pingFooter() {
++      if (!footerApi) return;
++      try {
++        if (!DB || typeof DB.ping !== "function") {
++          footerApi.textContent = "API: offline — local mode";
++          return;
++        }
++        DB.ping().then(function (live) {
++          footerApi.textContent = live
++            ? "API: online — PostgreSQL linked"
++            : "API: offline — local mode";
++        }).catch(function () {
++          footerApi.textContent = "API: offline — local mode";
++        });
++      } catch (err) {
++        footerApi.textContent = "API: offline — local mode";
++      }
+     }
++    pingFooter();
++    // re-ping so the footer recovers when the grid link comes back
++    setInterval(function () { if (!document.hidden) pingFooter(); }, 30000);
++
++    /* Render-core readout safety net: if the stage meter never published
++       (no canvas context, backgrounded boot), resolve to a stable value. */
++    setTimeout(function () {
++      var fps = $("stat-fps");
++      if (fps && /^—|SCANNING/i.test(fps.textContent || "")) {
++        fps.textContent = "STANDBY";
++        if ($("fps-readout")) $("fps-readout").textContent = "STANDBY";
++        var fRender = $("footer-render");
++        if (fRender && (fRender.textContent || "").indexOf("—") !== -1) {
++          fRender.textContent = "Render core: standby";
++        }
++      }
++    }, 2500);
+   }
+ 
+   /* ================================================================== */
+diff --git a/scripts/dom-smoke.js b/scripts/dom-smoke.js
+new file mode 100644
+index 0000000..9838ebf
+--- /dev/null
++++ b/scripts/dom-smoke.js
+@@ -0,0 +1,123 @@
++/* jsdom smoke test: boot the real index.html with the real scripts and verify
++   the symptom elements resolve (grid, empty-state, footer API, leaderboard,
++   fps/hw readouts, auth labels). Usage: node scripts/dom-smoke.js [--offline|--online|--nodb] */
++const fs = require("fs");
++const path = require("path");
++const vm = require("vm");
++const { JSDOM } = require("jsdom");
++
++const ROOT = path.join(process.cwd(), "public");
++const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
++const MODE = process.argv.includes("--real") ? "real" : process.argv.includes("--online") ? "online" : process.argv.includes("--nodb") ? "nodb" : "offline";
++
++const dom = new JSDOM(html, { url: "http://localhost:3000/index.html", pretendToBeVisual: true, runScripts: "outside-only" });
++const { window } = dom;
++
++// ---- shims -------------------------------------------------------------
++window.performance = window.performance || { now: () => Date.now() };
++window.requestAnimationFrame = (cb) => setTimeout(() => cb(window.performance.now()), 16);
++window.cancelAnimationFrame = (id) => clearTimeout(id);
++window.matchMedia = window.matchMedia || (() => ({ matches: false, addEventListener() {} }));
++window.scrollTo = () => {};
++window.AudioContext = undefined;
++const blocked = process.argv.includes("--blocked");
++const store = {};
++Object.defineProperty(window, "localStorage", { value: blocked ? {
++  getItem() { throw new DOMException("The operation is insecure.", "SecurityError"); },
++  setItem() { throw new DOMException("The operation is insecure.", "SecurityError"); },
++  removeItem() { throw new DOMException("The operation is insecure.", "SecurityError"); },
++} : {
++  getItem: (k) => (k in store ? store[k] : null),
++  setItem: (k, v) => { store[k] = String(v); },
++  removeItem: (k) => { delete store[k]; },
++}, configurable: true });
++
++// fetch mock: MODE decides /api/health + /api/leaderboard behaviour
++window.AbortController = globalThis.AbortController;
++window.fetch = (url, opts) => {
++  const u = String(url);
++  if (MODE === "real") return fetch(new URL(u, "http://localhost:3000").href, opts);
++  if (MODE === "offline") return Promise.reject(new TypeError("network down"));
++  if (MODE === "nodb") {
++    // server up, database down: health 500s, leaderboard 500s
++    return Promise.resolve({ ok: false, status: 500, json: () => Promise.resolve({ ok: false, db: "down", error: "Could not load leaderboard." }) });
++  }
++  if (u.includes("/api/health")) return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ ok: true, db: "up", service: "vortex-gaming" }) });
++  if (u.includes("/api/leaderboard"))
++    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ ok: true, source: "validated-telemetry", scope: "global", game: { key: "neon-snake", title: "Neon Snake" }, entries: [{ rank: 1, username: "ace", score: 900, xpEarned: 10, createdAt: new Date().toISOString() }] }) });
++  return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ ok: true }) });
++};
++
++// eval the real scripts in the same order as index.html
++const SCRIPTS = [
++  "js/device-scanner.js", "js/db.js", "js/vortex-engine.js", "js/vortex-fx.js",
++  "js/neon-snake.js", "js/games-action.js", "js/games-puzzle.js", "js/games-retro.js",
++  "js/games-racing.js", "js/vortex-gamification.js", "js/vortex-interactions.js",
++];
++const errors = [];
++for (const rel of SCRIPTS) {
++  try {
++    vm.runInContext(fs.readFileSync(path.join(ROOT, rel), "utf8"), dom.getInternalVMContext(), { filename: rel });
++  } catch (e) {
++    errors.push(rel + ": " + e.message);
++  }
++}
++if (errors.length) console.log("SCRIPT LOAD ERRORS:\n  " + errors.join("\n  "));
++
++const $ = (id) => window.document.getElementById(id);
++const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
++
++(async () => {
++  await sleep(1400); // let preloader timers, ping, leaderboard settle
++  const tiles = window.document.querySelectorAll(".game-card-tile").length;
++  console.log("MODE=" + MODE);
++  console.log("grid tiles: " + tiles + " (want 16)");
++  console.log("empty-state hidden: " + ($("empty-state") ? $("empty-state").classList.contains("hidden") : "MISSING") + " (want true)");
++  console.log("footer-api: " + JSON.stringify($("footer-api") && $("footer-api").textContent));
++  console.log("lb-status: " + JSON.stringify($("lb-status") && $("lb-status").textContent));
++  console.log("lb rows: " + window.document.querySelectorAll("#lb-body tr").length);
++  console.log("fps-readout: " + JSON.stringify($("fps-readout") && $("fps-readout").textContent));
++  console.log("stat-fps: " + JSON.stringify($("stat-fps") && $("stat-fps").textContent));
++  console.log("perf-readout: " + JSON.stringify($("perf-readout") && $("perf-readout").textContent));
++  console.log("stat-perf: " + JSON.stringify($("stat-perf") && $("stat-perf").textContent));
++  console.log("footer-hw: " + JSON.stringify($("footer-hw") && $("footer-hw").textContent));
++  console.log("footer-render: " + JSON.stringify($("footer-render") && $("footer-render").textContent));
++  const loginPh = $("login-email") && $("login-email").getAttribute("placeholder");
++  console.log("login placeholder: " + JSON.stringify(loginPh));
++  const tabs = [...window.document.querySelectorAll(".auth-tab")].map((t) => t.textContent.trim());
++  console.log("auth tabs: " + JSON.stringify(tabs));
++  const hints = [...window.document.querySelectorAll(".auth-hint")].map((h) => h.textContent.trim());
++  console.log("auth hints: " + JSON.stringify(hints));
++  // game modal banner?
++  console.log("gm-title: " + JSON.stringify($("gm-title") && $("gm-title").textContent));
++  // thumbnails mounted on every card?
++  const thumbs = window.document.querySelectorAll("img.card-thumb").length;
++  const thumbKeys = [...window.document.querySelectorAll("img.card-thumb")].map((i) => i.getAttribute("data-thumb-key"));
++  console.log("card thumbs: " + thumbs + " (want 16) unique=" + new Set(thumbKeys).size);
++  // launch a game and check the banner + game-active lock
++  try {
++    window.VortexLaunch && window.VortexLaunch("cyber-invaders");
++    await sleep(120);
++    const gm = $("game-modal");
++    console.log("gm banner: " + JSON.stringify(gm && gm.style.getPropertyValue("--gm-img")));
++    console.log("game-active class: " + window.document.body.classList.contains("game-active") + " (want true)");
++  } catch (e) {
++    console.log("launch test FAILED: " + e.message);
++  }
++  // empty-state rules: hidden initially, visible only for zero-result ACTIVE queries
++  const empty = $("empty-state");
++  const input = $("search-input");
++  const visibleTiles = () => [...window.document.querySelectorAll(".game-card-tile")].filter((t) => !t.classList.contains("hidden")).length;
++  console.log("-- search empty-state rules --");
++  console.log("initial: empty-hidden=" + empty.classList.contains("hidden") + " visible=" + visibleTiles());
++  input.value = "zzzz-no-such-game";
++  input.dispatchEvent(new window.Event("input", { bubbles: true }));
++  console.log("no-match query: empty-hidden=" + empty.classList.contains("hidden") + " visible=" + visibleTiles() + " (want hidden=false)");
++  input.value = "snake";
++  input.dispatchEvent(new window.Event("input", { bubbles: true }));
++  console.log("match query: empty-hidden=" + empty.classList.contains("hidden") + " visible=" + visibleTiles() + " (want hidden=true)");
++  input.value = "";
++  input.dispatchEvent(new window.Event("input", { bubbles: true }));
++  console.log("cleared: empty-hidden=" + empty.classList.contains("hidden") + " visible=" + visibleTiles());
++  process.exit(0);
++})();
+diff --git a/scripts/wave-repro.js b/scripts/wave-repro.js
+new file mode 100644
+index 0000000..5be563c
+--- /dev/null
++++ b/scripts/wave-repro.js
+@@ -0,0 +1,218 @@
++/* Targeted repro: drive cyber-invaders through wave transitions + bomb damage. */
++const fs = require("fs");
++const vm = require("vm");
++const path = require("path");
++const ROOT = process.cwd();
++
++function makeCtx(owner) {
++  const grad = { addColorStop() {} };
++  return {
++    canvas: owner,
++    save() {}, restore() {}, translate() {}, rotate() {}, scale() {},
++    setTransform() {}, clearRect() {}, fillRect() {}, strokeRect() {},
++    beginPath() {}, closePath() {}, moveTo() {}, lineTo() {}, arc() {}, arcTo() {},
++    rect() {}, roundRect() {}, fill() {}, stroke() {}, clip() {},
++    createLinearGradient: () => grad, createRadialGradient: () => grad,
++    fillText() {}, strokeText() {}, measureText: () => ({ width: 10 }),
++    drawImage() {}, putImageData() {},
++    getImageData: () => ({ data: new Uint8ClampedArray(4) }),
++    setLineDash() {},
++    fillStyle: "", strokeStyle: "", lineWidth: 1, globalAlpha: 1,
++    globalCompositeOperation: "source-over", shadowBlur: 0, shadowColor: "",
++    font: "", textAlign: "", textBaseline: "", lineCap: "", lineJoin: "",
++  };
++}
++function makeEl(tag) {
++  const listeners = {};
++  const el = {
++    tagName: tag, width: 800, height: 480, clientWidth: 900, clientHeight: 520,
++    style: {}, value: "", textContent: "", innerHTML: "", children: [],
++    classList: {
++      _s: new Set(),
++      add(...c) { c.forEach((x) => this._s.add(x)); },
++      remove(...c) { c.forEach((x) => this._s.delete(x)); },
++      toggle(c, f) { f === undefined ? (this._s.has(c) ? this._s.delete(c) : this._s.add(c)) : (f ? this._s.add(c) : this._s.delete(c)); },
++      contains(c) { return this._s.has(c); },
++    },
++    getContext() { return makeCtx(el); },
++    getBoundingClientRect: () => ({ left: 0, top: 0, width: 900, height: 520 }),
++    addEventListener(t, fn) { (listeners[t] = listeners[t] || []).push(fn); },
++    removeEventListener(t, fn) { listeners[t] = (listeners[t] || []).filter((f) => f !== fn); },
++    dispatchEvent(e) { (listeners[e.type] || []).slice().forEach((f) => f(e)); return true; },
++    setAttribute() {}, getAttribute: () => null,
++    appendChild(c) { el.children.push(c); return c; },
++    remove() {}, querySelector: () => null, querySelectorAll: () => [],
++    setPointerCapture() {}, focus() {}, closest: () => null,
++  };
++  el.parentElement = null;
++  return el;
++}
++const rafQueue = [];
++const winListeners = {};
++const parent = makeEl("div");
++const canvas = makeEl("canvas");
++canvas.parentElement = parent;
++const sandbox = {
++  console, Math, Date, JSON, Object, Array, String, Number, Boolean, Error,
++  Promise, Set, Map, isNaN, parseInt, parseFloat, Infinity, NaN,
++  Uint8Array, Uint8ClampedArray, Float32Array,
++  setInterval, clearInterval,
++  setTimeout(fn, ms) { sandbox.__timers.push({ fn, at: sandbox.__clock + (ms || 0) }); return sandbox.__timers.length; },
++  clearTimeout() {},
++  performance: { now: () => sandbox.__clock },
++  requestAnimationFrame(cb) { rafQueue.push(cb); return rafQueue.length; },
++  cancelAnimationFrame() {},
++  CustomEvent: class { constructor(type, init) { this.type = type; this.detail = (init || {}).detail; } },
++  navigator: { hardwareConcurrency: 8, deviceMemory: 8, maxTouchPoints: 0 },
++};
++sandbox.window = sandbox;
++sandbox.globalThis = sandbox;
++sandbox.devicePixelRatio = 2;
++sandbox.innerWidth = 1280;
++sandbox.innerHeight = 800;
++sandbox.screen = { width: 1920, height: 1080 };
++sandbox.matchMedia = () => ({ matches: false, addEventListener() {} });
++sandbox.addEventListener = (t, fn) => { (winListeners[t] = winListeners[t] || []).push(fn); };
++sandbox.removeEventListener = (t, fn) => { if (winListeners[t]) winListeners[t] = winListeners[t].filter((f) => f !== fn); };
++sandbox.dispatchEvent = (e) => { (winListeners[e.type] || []).slice().forEach((f) => f(e)); return true; };
++sandbox.localStorage = { _m: {}, getItem(k) { return this._m[k] ?? null; }, setItem(k, v) { this._m[k] = String(v); }, removeItem(k) { delete this._m[k]; } };
++const docListeners = {};
++sandbox.document = {
++  documentElement: makeEl("html"), body: makeEl("body"), hidden: false, readyState: "complete",
++  createElement: makeEl, getElementById: () => null, querySelector: () => null, querySelectorAll: () => [],
++  addEventListener(t, fn) { (docListeners[t] = docListeners[t] || []).push(fn); },
++  removeEventListener(t, fn) { if (docListeners[t]) docListeners[t] = docListeners[t].filter((f) => f !== fn); },
++  dispatchEvent(e) { (docListeners[e.type] || []).slice().forEach((f) => f(e)); return true; },
++};
++sandbox.__clock = 1000;
++sandbox.__timers = [];
++vm.createContext(sandbox);
++
++for (const f of ["js/vortex-fx.js", "js/games-action.js"]) {
++  vm.runInContext(fs.readFileSync(path.join(ROOT, "public", f), "utf8"), sandbox, { filename: f });
++}
++const game = sandbox.VortexGames["cyber-invaders"];
++let score = 0, over = false, err = null;
++const inst = game.init({
++  canvas,
++  audio: { blip() {}, arpUp() {}, explosion() {} },
++  device: { tier: "high" },
++  onScore: (s) => { score = s; },
++  onXp: () => {},
++  onGameOver: () => { over = true; },
++});
++
++function frames(n) {
++  for (let i = 0; i < n && !err; i++) {
++    sandbox.__clock += 16.7;
++    const q = rafQueue.splice(0, rafQueue.length);
++    if (!q.length) { console.log("RAF QUEUE EMPTY (loop died) at step " + i); return false; }
++    for (const cb of q) {
++      try { cb(sandbox.__clock); } catch (e) { err = e; return false; }
++    }
++    for (let z = sandbox.__timers.length - 1; z >= 0; z--) {
++      if (sandbox.__timers[z].at <= sandbox.__clock) {
++        const tm = sandbox.__timers.splice(z, 1)[0];
++        try { tm.fn(); } catch (e) { err = e; return false; }
++      }
++    }
++  }
++  return !err;
++}
++
++const st = inst.getState();
++console.log("wave=" + st.wave + " invaders=" + st.invaders.length + " boss=" + !!st.boss);
++
++// --- Scenario A: clear wave 1, observe transition to wave 2 ---
++st.invaders.forEach((iv) => { iv.alive = false; });
++if (!frames(3)) {
++  console.log("FAIL A: " + err.message + "\n" + err.stack.split("\n").slice(0, 3).join("\n"));
++} else {
++  console.log("A ok: wave=" + st.wave + " invaders=" + st.invaders.length + " alive=" + st.invaders.filter((x) => x.alive).length);
++}
++
++// --- Scenario B: clear wave 2 -> wave 3 (boss) ---
++st.invaders.forEach((iv) => { iv.alive = false; });
++if (!frames(3)) {
++  console.log("FAIL B: " + err.message + "\n" + err.stack.split("\n").slice(0, 3).join("\n"));
++} else {
++  console.log("B ok: wave=" + st.wave + " invaders=" + st.invaders.length + " boss=" + !!st.boss);
++}
++
++// --- Scenario C: kill boss -> wave 4 ---
++if (st.boss) {
++  st.boss.hp = 1;
++  st.bullets.push({ x: st.boss.x, y: st.boss.y, vx: 0, vy: -600 });
++}
++if (!frames(3)) {
++  console.log("FAIL C: " + err.message + "\n" + err.stack.split("\n").slice(0, 3).join("\n"));
++} else {
++  console.log("C ok: wave=" + st.wave + " invaders=" + st.invaders.length + " boss=" + !!st.boss);
++}
++
++// --- Scenario D: bomb hits ship while more bombs in flight (damage clears array).
++// Bombs are iterated from the END, so the hitting bomb must be the LAST pushed
++// while older bombs still sit at lower indices when damage() zeroes the array.
++st.bombs.push({ x: st.ship.x - 40, y: st.ship.y - 160, vx: 0, vy: 200 });
++st.bombs.push({ x: st.ship.x + 40, y: st.ship.y - 120, vx: 0, vy: 200 });
++st.bombs.push({ x: st.ship.x, y: st.ship.y, vx: 0, vy: 200 });
++if (!frames(3)) {
++  console.log("FAIL D: " + err.message + "\n" + err.stack.split("\n").slice(0, 3).join("\n"));
++} else {
++  console.log("D ok: lives=" + st.lives + " bombs=" + st.bombs.length);
++}
++
++console.log(err ? "\nRESULT: REPRODUCED ERROR" : "\nRESULT: no crash in scenarios");
++try { inst.destroy(); } catch (e) {}
++
++/* ---- Scenario E: full progressive wave sweep 1 -> 6 (boss waves at 3 & 6) ---- */
++try { inst.destroy(); } catch (e) {}
++rafQueue.length = 0; sandbox.__timers.length = 0; err = null; over = false;
++const inst2 = game.init({
++  canvas,
++  audio: { blip() {}, arpUp() {}, explosion() {} },
++  device: { tier: "high" },
++  onScore() {}, onXp() {}, onGameOver: () => { over = true; },
++});
++function frames2(n) {
++  for (let i = 0; i < n && !err; i++) {
++    sandbox.__clock += 16.7;
++    const q = rafQueue.splice(0, rafQueue.length);
++    if (!q.length) return false;
++    for (const cb of q) { try { cb(sandbox.__clock); } catch (e) { err = e; return false; } }
++    for (let z = sandbox.__timers.length - 1; z >= 0; z--) {
++      if (sandbox.__timers[z].at <= sandbox.__clock) {
++        const tm = sandbox.__timers.splice(z, 1)[0];
++        try { tm.fn(); } catch (e) { err = e; return false; }
++      }
++    }
++  }
++  return !err;
++}
++const st2 = inst2.getState();
++const log = [];
++for (let w = 1; w <= 7 && !err; w++) {
++  st2.lives = 9;
++  log.push("wave=" + st2.wave + " invaders=" + st2.invaders.length + " boss=" + !!st2.boss + " bombs=" + st2.bombs.length);
++  if (st2.boss) {
++    // shoot the boss down; put the bullet at the boss with 1hp
++    st2.boss.hp = 1;
++    st2.bullets.push({ x: st2.boss.x, y: st2.boss.y, vx: 0, vy: -600 });
++    frames2(4);
++  } else {
++    st2.invaders.forEach((iv) => { iv.alive = false; });
++    frames2(4);
++    // interleave an enemy volley right through the transition (regression guard)
++    if (!err) {
++      st2.lives = 9;   // keep the sweep alive through repeated test volleys
++      st2.bombs.push({ x: st2.ship.x - 40, y: st2.ship.y - 160, vx: 0, vy: 200 });
++      st2.bombs.push({ x: st2.ship.x, y: st2.ship.y, vx: 0, vy: 200 });
++      frames2(4);
++    }
++  }
++}
++log.push("final wave=" + st2.wave + " invaders=" + st2.invaders.length + " boss=" + !!st2.boss);
++console.log(err ? "FAIL E: " + err.message + "\n" + err.stack.split("\n").slice(0, 3).join("\n") : "E ok");
++console.log(log.join("\n"));
++try { inst2.destroy(); } catch (e) {}
++console.log(err ? "\nRESULT: STILL BROKEN" : "\nRESULT: all scenarios clean");
+diff --git a/src/app/api/auth/login/route.ts b/src/app/api/auth/login/route.ts
+index f648af4..5007c79 100644
+--- a/src/app/api/auth/login/route.ts
++++ b/src/app/api/auth/login/route.ts
+@@ -1,7 +1,7 @@
+ import bcrypt from "bcryptjs";
+ import { db } from "@/db";
+-import { users } from "@/db/schema";
+-import { eq } from "drizzle-orm";
++import { users, userProfiles } from "@/db/schema";
++import { eq, sql } from "drizzle-orm";
+ import { ok, fail, preflight, readJson, signToken } from "@/lib/api";
+ import { ensureSeed, levelFromXp } from "@/db/seed";
+ 
+@@ -29,6 +29,41 @@ export async function POST(req: Request) {
+ 
+     if (user.status === "banned") return fail(403, "This account has been suspended.");
+ 
++    // Persistent user recognition: record the returning visit on the profile
++    // row so the PostgreSQL backbone tracks logins reliably.
++    try {
++      const now = new Date();
++      const profileRows = await db
++        .select({ userId: userProfiles.userId })
++        .from(userProfiles)
++        .where(eq(userProfiles.userId, user.id))
++        .limit(1);
++
++      if (profileRows.length > 0) {
++        await db
++          .update(userProfiles)
++          .set({
++            lastLoginAt: now,
++            totalLoginCount: sql`${userProfiles.totalLoginCount} + 1`,
++            updatedAt: now,
++          })
++          .where(eq(userProfiles.userId, user.id));
++      } else {
++        await db
++          .insert(userProfiles)
++          .values({
++            userId: user.id,
++            displayName: user.username,
++            lastLoginAt: now,
++            totalLoginCount: 1,
++          })
++          .onConflictDoNothing();
++      }
++    } catch (err) {
++      // never block authentication on telemetry bookkeeping
++      console.error("[api/auth/login] profile touch failed", err);
++    }
++
+     const token = signToken({ id: user.id, username: user.username, role: user.role });
+     return ok({
+       ok: true,

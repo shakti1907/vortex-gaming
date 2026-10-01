@@ -26,8 +26,31 @@
   var cardEls = {};  // key -> tile element
   var bestEls = {};  // key -> <b> element for live best refresh
 
+  function getManifest() {
+    if (!MANIFEST.length && window.VortexManifest) MANIFEST = window.VortexManifest;
+    return MANIFEST;
+  }
+
   function renderCards() {
-    for (var i = 0; i < MANIFEST.length; i++) {
+    var list = getManifest();
+
+    // Guard against load-order anomalies: never leave the grid blank —
+    // poll briefly for the manifest module before mounting the tiles.
+    if (!list.length) {
+      var tries = 0;
+      var timer = setInterval(function () {
+        tries++;
+        if (getManifest().length || tries > 40) {
+          clearInterval(timer);
+          renderCards();
+          applyFilter();
+          initReveal();
+        }
+      }, 50);
+      return;
+    }
+
+    for (var i = 0; i < list.length; i++) {
       (function (g, idx) {
         var grid = $(g.gridId);
         if (!grid) return;
@@ -44,6 +67,7 @@
 
         tile.innerHTML =
           '<div class="card-preview" style="--prev-a:' + hexToRgba(g.color, 0.22) + '; --prev-b:' + g.color + '">' +
+            '<img class="card-thumb" data-thumb-key="' + g.key + '" src="assets/games/' + g.key + '.jpg" alt="" loading="lazy" decoding="async" onerror="if(!this.dataset.f){this.dataset.f=\'1\';this.src=\'assets/games/\'+this.getAttribute(\'data-thumb-key\')+\'.svg\';}else{this.remove();}" />' +
             '<span class="card-scan-badge">LIVE FEED</span>' +
             '<span class="card-diff">' + g.diff + '</span>' +
             '<div class="card-glyph ' + g.glyph + '"></div>' +
@@ -62,7 +86,7 @@
         cardEls[g.key] = tile;
         var b = tile.querySelector('b[data-best="' + g.key + '"]');
         if (b) bestEls[g.key] = b;
-      })(MANIFEST[i], i);
+      })(list[i], i);
     }
   }
 
@@ -157,7 +181,12 @@
     }
 
     var empty = $("empty-state");
-    if (empty) empty.classList.toggle("hidden", visible > 0);
+    if (empty) {
+      // "NO SIGNALS FOUND" is reserved for ACTIVE queries that match nothing —
+      // never on the initial render (or when every tile simply failed to mount).
+      var activeQuery = q.length > 0 || activeTag !== "all";
+      empty.classList.toggle("hidden", !(activeQuery && visible === 0));
+    }
     var clearBtn = $("search-clear");
     if (clearBtn) clearBtn.classList.toggle("hidden", q.length === 0);
     return bestTile;
@@ -235,11 +264,25 @@
     if (dpad) dpad.classList.toggle("hidden", !factory.pad);
 
     var modal = $("game-modal");
-    if (modal) modal.classList.remove("hidden");
+    if (modal) {
+      modal.classList.remove("hidden");
+      // per-game cyberpunk banner behind the modal head (svg base, jpg upgrade)
+      modal.style.setProperty("--gm-img", "url('assets/games/" + meta.key + ".svg')");
+      (function (key) {
+        var probe = new Image();
+        probe.onload = function () {
+          if (session.game && session.game.key === key) {
+            modal.style.setProperty("--gm-img", "url('assets/games/" + key + ".jpg')");
+          }
+        };
+        probe.src = "assets/games/" + key + ".jpg";
+      })(meta.key);
+    }
     var over = $("game-over-panel");
     if (over) over.classList.add("hidden");
 
     document.body.style.overflow = "hidden";
+    document.body.classList.add("game-active");   // locks mobile scroll/zoom
 
     // ---- SILENT TELEMETRY EMITTER (non-blocking; listeners attach elsewhere) ----
     try {
@@ -359,6 +402,7 @@
     var panel = $("game-over-panel");
     if (panel) panel.classList.add("hidden");
     document.body.style.overflow = "";
+    document.body.classList.remove("game-active");
     var canvas = $("gm-canvas");
     if (canvas) {
       var ctx = canvas.getContext("2d");
@@ -385,6 +429,20 @@
         if (spin) spin.classList.add("hidden");
       }
     });
+
+    // Mobile containment: while a game is active, kill page scroll, pull-to-
+    // refresh and pinch-zoom inside the game surface (CSS covers most of it;
+    // this blocks the non-passive gestures browsers still allow by default).
+    var gameModal = $("game-modal");
+    if (gameModal) {
+      gameModal.addEventListener("touchmove", function (e) {
+        if (document.body.classList.contains("game-active")) e.preventDefault();
+      }, { passive: false });
+      gameModal.addEventListener("gesturestart", function (e) { e.preventDefault(); });
+      gameModal.addEventListener("dblclick", function (e) {
+        if (document.body.classList.contains("game-active")) e.preventDefault();
+      });
+    }
 
     // dpad routing → engines listen on window 'vortex-dir' / 'vortex-dir-up'.
     // Press AND release are broadcast so games can read *held* state.
@@ -436,25 +494,34 @@
     return isNaN(d.getTime()) ? "—" : d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
   }
 
+  function setLbStatus(text, live) {
+    var status = $("lb-status");
+    if (!status) return;
+    status.textContent = text;
+    status.classList.toggle("live", !!live);
+  }
+
   function loadLeaderboard() {
     var select = $("lb-select");
     var body = $("lb-body");
-    var status = $("lb-status");
-    if (!select || !body || !DB) return;
+    if (!select || !body) return;
     var key = select.value;
     var scopeEl = $("lb-scope");
     var scope = scopeEl ? scopeEl.value : "global";
-    if (status) { status.textContent = "SYNCING…"; status.classList.remove("live"); }
+    setLbStatus("SYNCING…", false);
 
-    DB.leaderboard(key, scope).then(function (res) {
+    // Resolve into a rendered board (or a graceful empty state) no matter
+    // what the transport does — the old code could stall on "SYNCING…".
+    var settle = function (res) {
+      try {
       if (!body) return;
       body.innerHTML = "";
-      if (status) {
-        status.textContent = res.live
+      setLbStatus(
+        res.live
           ? "● LIVE — " + (res.source === "validated-telemetry" ? "VALIDATED TELEMETRY" : "POSTGRES GRID")
-          : "○ LOCAL RECORDS";
-        status.classList.toggle("live", res.live);
-      }
+          : "○ LOCAL RECORDS",
+        res.live
+      );
       if (!res.entries.length) {
         body.innerHTML = '<tr class="lb-empty"><td colspan="5">No records on this grid yet — be the first.</td></tr>';
         return;
@@ -471,7 +538,23 @@
           '<td class="lb-date-col">' + fmtDate(e.createdAt) + '</td>';
         body.appendChild(tr);
       }
-    });
+      } catch (err) {
+        console.error("[leaderboard]", err);
+        setLbStatus("○ LOCAL RECORDS", false);
+      }
+    };
+
+    try {
+      if (!DB) {
+        settle({ entries: [], live: false, me: null });
+        return;
+      }
+      DB.leaderboard(key, scope).then(settle).catch(function () {
+        settle({ entries: [], live: false, me: null });
+      });
+    } catch (err) {
+      settle({ entries: [], live: false, me: null });
+    }
   }
 
   function escapeHtml(s) {
@@ -558,7 +641,8 @@
         DB.login(email, pass).then(function (res) {
           if (res.ok) {
             modal.classList.add("hidden");
-            window.VortexToast("Welcome back, " + res.user.username);
+            // greet the returning pilot by handle (persistent identity)
+            window.VortexToast("Welcome back, " + res.user.username + " — grid access restored.");
             refreshAuthUI();
           } else {
             showAuthError("login-error", res.error || "Invalid credentials.");
@@ -655,18 +739,51 @@
     var perf = $("perf-readout");
     var heroPerf = $("stat-perf");
     var footerHw = $("footer-hw");
-    var footerApi = $("footer-api");
     var label = (DEVICE.tier || "medium").toUpperCase() + " TIER";
     if (perf) perf.textContent = label;
     if (heroPerf) heroPerf.textContent = label;
     if (footerHw) {
       footerHw.textContent = "Hardware profile: " + label + " · " + (DEVICE.cores || "?") + " cores · " + (DEVICE.memory || "?") + "GB · DPR " + (DEVICE.dpr || 1);
     }
-    if (footerApi && DB) {
-      DB.ping().then(function (live) {
-        footerApi.textContent = live ? "API: online — PostgreSQL linked" : "API: offline — local mode";
-      });
+
+    /* Footer API status: must ALWAYS resolve out of "checking…" — online,
+       offline and degraded are all valid, a hanging request is not. */
+    var footerApi = $("footer-api");
+    function pingFooter() {
+      if (!footerApi) return;
+      try {
+        if (!DB || typeof DB.ping !== "function") {
+          footerApi.textContent = "API: offline — local mode";
+          return;
+        }
+        DB.ping().then(function (live) {
+          footerApi.textContent = live
+            ? "API: online — PostgreSQL linked"
+            : "API: offline — local mode";
+        }).catch(function () {
+          footerApi.textContent = "API: offline — local mode";
+        });
+      } catch (err) {
+        footerApi.textContent = "API: offline — local mode";
+      }
     }
+    pingFooter();
+    // re-ping so the footer recovers when the grid link comes back
+    setInterval(function () { if (!document.hidden) pingFooter(); }, 30000);
+
+    /* Render-core readout safety net: if the stage meter never published
+       (no canvas context, backgrounded boot), resolve to a stable value. */
+    setTimeout(function () {
+      var fps = $("stat-fps");
+      if (fps && /^—|SCANNING/i.test(fps.textContent || "")) {
+        fps.textContent = "STANDBY";
+        if ($("fps-readout")) $("fps-readout").textContent = "STANDBY";
+        var fRender = $("footer-render");
+        if (fRender && (fRender.textContent || "").indexOf("—") !== -1) {
+          fRender.textContent = "Render core: standby";
+        }
+      }
+    }, 2500);
   }
 
   /* ================================================================== */

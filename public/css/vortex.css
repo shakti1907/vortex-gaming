@@ -1181,3 +1181,75 @@ tr.lb-me td:first-child { border-left: 3px solid var(--secondary); }
 #pwa-banner .pwa-cta { color: var(--secondary); font-family: var(--font-display); font-size: 0.64rem; letter-spacing: 0.16em; }
 #pwa-banner .pwa-x { background: none; border: 0; color: var(--text-dim); font-size: 0.9rem; padding: 2px 5px; }
 #pwa-banner.hidden { display: none; }
+
+/* ------------------------------------------------------------------ */
+/* 20. GAME THUMBNAILS · TOUCH PAD · MOBILE GAME LOCK · AUTH SECTIONS   */
+/* ------------------------------------------------------------------ */
+
+/* per-game cyberpunk thumbnail (falls back to the gradient + glyph below) */
+.card-thumb {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0.78; filter: saturate(1.25) contrast(1.06);
+  transition: opacity 0.35s ease, transform 0.55s ease;
+}
+.game-card-tile:hover .card-thumb { opacity: 0.96; transform: scale(1.06); }
+.card-preview .card-glyph { z-index: 1; opacity: 0.9; mix-blend-mode: screen; }
+.card-preview .card-scan-badge,
+.card-preview .card-diff,
+.card-preview .card-live-dot { z-index: 2; }
+.card-preview::after { z-index: 2; }
+
+/* per-game banner behind the game-modal head (set via --gm-img) */
+.game-head { position: relative; overflow: hidden; }
+.game-head::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(100deg, rgba(8, 4, 22, 0.94) 20%, rgba(8, 4, 22, 0.62) 62%, rgba(8, 4, 22, 0.88)),
+    var(--gm-img, none);
+  background-size: cover;
+  background-position: center 32%;
+}
+.game-head > * { position: relative; z-index: 1; }
+
+/* virtual pad: labelled, thumb-friendly, cyberpunk-styled */
+.dpad-btn {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1px; line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+}
+.dpad-btn::after {
+  content: attr(data-lbl);
+  font-family: var(--font-mono); font-size: 0.42rem; letter-spacing: 0.12em;
+  color: var(--text-dim);
+}
+.dpad-btn.pressed::after, .dpad-btn:active::after { color: var(--secondary); }
+
+/* mobile containment: no page scroll / pull-to-refresh / pinch-zoom in-game */
+body.game-active { overflow: hidden !important; overscroll-behavior: none; }
+body.game-active #game-modal { touch-action: none; }
+body.game-active #gm-canvas,
+body.game-active #gm-canvas-wrap {
+  touch-action: none;
+  -webkit-user-select: none; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (pointer: coarse) {
+  #dpad { grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(2, 56px); gap: 10px; }
+  .dpad-btn { font-size: 1.05rem; border-radius: 14px; }
+  .dpad-btn::after { font-size: 0.5rem; }
+  #dpad.compact { grid-template-rows: repeat(3, 52px); }
+}
+
+/* login / register section separation */
+.auth-section-tag {
+  margin: 0;
+  font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.26em;
+  color: var(--secondary);
+}
+.auth-section-sub {
+  margin: -6px 0 2px;
+  font-size: 0.82rem; color: var(--text-dim); line-height: 1.45;
+}

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 432" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bgt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#05020e"/><stop offset="1" stop-color="#0d0a2e"/></linearGradient>
+    <filter id="glowt" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <radialGradient id="core" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#2ee6ff"/><stop offset="1" stop-color="#2ee6ff" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="768" height="432" fill="url(#bgt)"/>
+  <g filter="url(#glowt)" fill="none" stroke="#2ee6ff" stroke-width="3" opacity=".9">
+    <rect x="336" y="188" width="96" height="56" rx="8"/>
+    <rect x="276" y="146" width="216" height="140" rx="12" opacity=".8"/>
+    <rect x="196" y="88" width="376" height="256" rx="16" opacity=".6"/>
+    <rect x="96" y="18" width="576" height="396" rx="22" opacity=".42"/>
+    <rect x="-24" y="-72" width="816" height="576" rx="30" stroke="#8a5cff" opacity=".38"/>
+  </g>
+  <g filter="url(#glowt)" stroke="#ff2e88" stroke-width="4" stroke-linecap="round" opacity=".85">
+    <line x1="384" y1="216" x2="60" y2="60"/><line x1="384" y1="216" x2="708" y2="60"/>
+    <line x1="384" y1="216" x2="60" y2="392"/><line x1="384" y1="216" x2="708" y2="392"/>
+    <line x1="384" y1="216" x2="240" y2="-30"/><line x1="384" y1="216" x2="560" y2="-30"/>
+    <line x1="384" y1="216" x2="240" y2="462"/><line x1="384" y1="216" x2="560" y2="462"/>
+  </g>
+  <circle cx="384" cy="216" r="26" fill="url(#core)"/>
+  <g filter="url(#glowt)">
+    <polygon points="250,150 292,140 282,178" fill="#ffb42e"/>
+    <polygon points="540,300 500,308 512,272" fill="#ff2e88"/>
+    <polygon points="470,110 502,122 476,140" fill="#8a5cff"/>
+    <rect x="180" y="250" width="42" height="42" rx="8" fill="#2ee6ff" opacity=".8" transform="rotate(18 201 271)"/>
+    <rect x="560" y="150" width="36" height="36" rx="8" fill="#ffe600" opacity=".7" transform="rotate(-14 578 168)"/>
+  </g>
+</svg>
