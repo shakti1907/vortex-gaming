@@ -135,6 +135,18 @@ export async function GET(
         score: l.finalScore, duration: l.durationSeconds,
         startIST: formatToIST(l.startTime), endIST: formatToIST(l.endTime),
       })),
+      /* Full activity ledger for the printable ACTIVITY AUDIT table
+         (username / user id / action / game-module / IST timestamps). */
+      activity: logs.map((l) => ({
+        id: l.id,
+        game: l.gameName,
+        gameKey: l.gameKey,
+        action: l.status,            // WON | LOST | QUIT
+        score: l.finalScore,
+        duration: l.durationSeconds,
+        startIST: formatToIST(l.startTime),
+        endIST: formatToIST(l.endTime),
+      })),
     });
   } catch (err) {
     console.error("[api/reports/user]", err);

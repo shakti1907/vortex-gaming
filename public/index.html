@@ -377,26 +377,27 @@
   </div>
 
   <!-- ============ PLAY HISTORY / ACTIVITY AUDIT RECEIPT ============ -->
-  <div id="receipt-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Play history report">
+  <div id="receipt-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Activity audit report">
     <div class="modal-backdrop"></div>
-    <div class="modal-card" style="max-width:720px;max-height:calc(100vh - 40px);overflow:auto">
+    <div class="modal-card" style="max-width:780px;max-height:calc(100vh - 40px);overflow:auto">
       <button class="modal-close" id="receipt-close" type="button" aria-label="Close">✕</button>
       <div class="receipt-title no-print">
         <h3>ACTIVITY AUDIT</h3>
-        <div class="receipt-toggle" role="group" aria-label="Document theme">
-          <span class="deck-label">THEME</span>
-          <button class="tdot active" data-t="dark" type="button" aria-label="Cyber dark"></button>
-          <button class="tdot light" data-t="light" type="button" aria-label="Eco print light"></button>
+        <div class="receipt-toggle" role="group" aria-label="PDF theme">
+          <span class="deck-label">PDF THEME</span>
+          <button class="tdot" data-t="light" type="button" aria-label="White and Black theme" title="White &amp; Black"></button>
+          <span class="tdot-name">WHITE &amp; BLACK</span>
+          <button class="tdot dark active" data-t="dark" type="button" aria-label="Black and White theme" title="Black &amp; White"></button>
+          <span class="tdot-name">BLACK &amp; WHITE</span>
         </div>
       </div>
-      <div id="receipt-doc"><div class="rd-inner" id="receipt-fill">
+      <div id="receipt-doc" class="theme-dark"><div class="rd-inner" id="receipt-fill">
         <p style="text-align:center;padding:60px 20px;font-weight:600;letter-spacing:0.1em" id="receipt-loading">GENERATING AUDIT…</p>
       </div></div>
       <div class="receipt-actions no-print">
         <button id="btn-rec-pdf" class="btn btn-neon btn-sm" type="button">PDF DOWNLOAD</button>
-        <button id="btn-rec-print" class="btn btn-ghost btn-sm" type="button">PRINT</button>
-        <button id="btn-rec-email" class="btn btn-ghost btn-sm" type="button">EMAIL ME</button>
-        <button id="btn-rec-refresh" class="btn btn-ghost btn-sm" type="button">REFRESH</button>
+        <button id="btn-rec-csv" class="btn btn-ghost btn-sm" type="button">CSV EXPORT</button>
+        <button id="btn-rec-autosave" class="btn btn-neon btn-sm" type="button" aria-pressed="true">AUTO-SAVE ON EXIT: ON</button>
         <span id="receipt-status" style="margin-left:auto;align-self:center;font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.14em;color:var(--text-dim)"></span>
       </div>
     </div>
@@ -411,12 +412,11 @@
 
   <div id="toasts" aria-live="polite"></div>
 
-  <!-- v3.0 locally-vendored offline libraries: QR + PDF + IndexedDB -->
+  <!-- v3.0 locally-vendored offline libraries: QR + IndexedDB -->
   <script defer src="vendor/qrcode.min.js"></script>
-  <script defer src="vendor/html2canvas.min.js"></script>
-  <script defer src="vendor/jspdf.umd.min.js"></script>
   <script defer src="vendor/dexie.min.js"></script>
   <script defer src="js/vortex-telemetry.js"></script>
+  <script defer src="js/vortex-report-bridge.js"></script>
   <script defer src="js/vortex-receipt.js"></script>
   <script defer src="js/pwa.js"></script>
 
