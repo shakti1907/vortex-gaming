@@ -6,3 +6,5 @@ drizzle
 # Build artifacts and patches
 tsconfig.tsbuildinfo
 *.patch
+.vercel
+.env*
