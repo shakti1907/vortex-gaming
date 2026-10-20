@@ -1,8 +1,22 @@
-import { redirect } from "next/navigation";
+import { UltronProvider } from "@/components/UltronContext";
+import { BiomechanicalHud } from "@/components/BiomechanicalHud";
+import { BiomechanicalHero } from "@/components/BiomechanicalHero";
+import { AdminTerminal } from "@/components/AdminTerminal";
 
 export const dynamic = "force-dynamic";
 
-/** The arcade shell is a fully static experience served from public/. */
+/**
+ * Biomechanical Ultron homepage — obsidian hero canvas wrapped in the
+ * fixed HUD shell with the slide-down admin terminal. The playable
+ * arcade stays untouched at /index.html (its canvas loops, physics and
+ * input handlers are never mounted or modified here).
+ */
 export default function HomePage() {
-  redirect("/index.html");
+  return (
+    <UltronProvider>
+      <BiomechanicalHud />
+      <BiomechanicalHero />
+      <AdminTerminal />
+    </UltronProvider>
+  );
 }
