@@ -1,1 +1,164 @@
 @import "tailwindcss";
+
+/* ==================================================================
+   BIOMECHANICAL ULTRON HUD — obsidian canvas, crimson takeover
+   Accent state lives in CSS vars and flips when the Ultron context
+   sets data-ultron="on" on its wrapper (cyber cyan -> corrupted red).
+   ================================================================== */
+
+[data-ultron="off"] {
+  --hud-accent: #22d3ee;
+  --hud-accent-soft: rgba(34, 211, 238, 0.14);
+  --hud-accent-line: rgba(34, 211, 238, 0.32);
+  --hud-glow: rgba(34, 211, 238, 0.4);
+  --hud-danger: #ff0033;
+}
+[data-ultron="on"] {
+  --hud-accent: #ff0033;
+  --hud-accent-soft: rgba(255, 0, 51, 0.16);
+  --hud-accent-line: rgba(255, 0, 51, 0.38);
+  --hud-glow: rgba(255, 0, 51, 0.55);
+  --hud-danger: #ff0033;
+}
+
+.hud-accent {
+  color: var(--hud-accent);
+  transition: color 0.35s ease;
+}
+.hud-accent-bg {
+  background: var(--hud-accent);
+  transition: background 0.35s ease;
+}
+.hud-accent-border {
+  border-color: var(--hud-accent-line);
+  transition: border-color 0.35s ease;
+}
+.hud-glow {
+  box-shadow: 0 0 26px var(--hud-glow);
+  transition: box-shadow 0.35s ease;
+}
+.hud-fog {
+  background: radial-gradient(ellipse 60% 50% at 70% 40%, var(--hud-accent-soft), transparent 70%);
+  transition: background 0.6s ease;
+}
+
+/* ---------------- chiseled metallic typography -------------------- */
+.metal-text {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #dfe6f2 22%,
+    #97a2b5 42%,
+    #f6f9ff 50%,
+    #6f7a8d 60%,
+    #b9c4d6 82%,
+    #eef2f9 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.06);
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  pointer-events: none;
+}
+.glitch-text::before {
+  clip-path: polygon(0 2%, 100% 2%, 100% 34%, 0 34%);
+  transform: translate(-3px, -2px);
+  opacity: 0;
+  animation: glitch-cut-a 4.2s infinite steps(1, jump-none);
+}
+.glitch-text::after {
+  clip-path: polygon(0 62%, 100% 62%, 100% 96%, 0 96%);
+  transform: translate(3px, 2px);
+  opacity: 0;
+  animation: glitch-cut-b 3.4s infinite steps(1, jump-none);
+}
+@keyframes glitch-cut-a {
+  0%, 88%, 100% { opacity: 0; }
+  89%, 91% { opacity: 0.9; transform: translate(-5px, -2px); }
+  92% { opacity: 0.55; transform: translate(2px, -1px); }
+}
+@keyframes glitch-cut-b {
+  0%, 80%, 100% { opacity: 0; }
+  81%, 83% { opacity: 0.9; transform: translate(5px, 2px); }
+  84% { opacity: 0.5; transform: translate(-2px, 1px); }
+}
+
+/* ---------------- fog / scanlines / ambient ----------------------- */
+@keyframes fog-drift {
+  0% { transform: translate3d(-3%, 0, 0) scale(1.05); }
+  50% { transform: translate3d(3%, -2%, 0) scale(1.12); }
+  100% { transform: translate3d(-3%, 0, 0) scale(1.05); }
+}
+.fog-layer {
+  animation: fog-drift 18s ease-in-out infinite;
+}
+
+.scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.028) 0px,
+    rgba(255, 255, 255, 0.028) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+
+/* ---------------- angled clip-paths ------------------------------- */
+.clip-slant {
+  clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+}
+.clip-tag {
+  clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+.clip-corner {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+}
+
+/* ---------------- terminal chrome --------------------------------- */
+.blink {
+  animation: blink-step 1.05s steps(1, jump-none) infinite;
+}
+@keyframes blink-step {
+  0%, 55% { opacity: 1; }
+  56%, 100% { opacity: 0; }
+}
+
+.terminal-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.terminal-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+.terminal-scroll::-webkit-scrollbar-thumb {
+  background: var(--hud-accent-line);
+  border-radius: 4px;
+}
+
+@keyframes led-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--hud-glow); }
+  50% { opacity: 0.45; box-shadow: 0 0 2px var(--hud-glow); }
+}
+.led-pulse {
+  animation: led-pulse 2.2s ease-in-out infinite;
+}
+
+/* vertical social rail */
+.vertical-rl {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
