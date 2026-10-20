@@ -8,27 +8,27 @@
 /* 0. THEME VARIABLES                                                  */
 /* ------------------------------------------------------------------ */
 :root {
-  --font-display: "Orbitron", "Segoe UI", system-ui, sans-serif;
+  --font-display: "JetBrains Mono", "Fira Code", ui-monospace, Consolas, monospace;
   --font-body: "Rajdhani", "Segoe UI", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 
-  --bg: #0b0621;
-  --bg-2: #160b36;
-  --bg-3: #1d1046;
+  --bg: #05070a;
+  --bg-2: #0a0f16;
+  --bg-3: #0e141c;
   --panel: rgba(18, 10, 44, 0.72);
-  --panel-solid: #150b34;
-  --line: rgba(255, 46, 136, 0.22);
-  --text: #f4efff;
-  --text-dim: #a99ec9;
+  --panel-solid: #0a0f16;
+  --line: rgba(255, 0, 85, 0.22);
+  --text: #f8fafc;
+  --text-dim: #64748b;
 
-  --primary: #ff2e88;
-  --primary-soft: rgba(255, 46, 136, 0.16);
-  --secondary: #2ee6ff;
-  --secondary-soft: rgba(46, 230, 255, 0.14);
+  --primary: #ff0055;
+  --primary-soft: rgba(255, 0, 85, 0.16);
+  --secondary: #00f3ff;
+  --secondary-soft: rgba(0, 243, 255, 0.14);
   --accent: #ffb42e;
 
-  --glow-primary: 0 0 18px rgba(255, 46, 136, 0.55), 0 0 46px rgba(255, 46, 136, 0.22);
-  --glow-secondary: 0 0 18px rgba(46, 230, 255, 0.5), 0 0 46px rgba(46, 230, 255, 0.2);
+  --glow-primary: 0 0 18px rgba(255, 0, 85, 0.55), 0 0 46px rgba(255, 0, 85, 0.22);
+  --glow-secondary: 0 0 18px rgba(0, 243, 255, 0.5), 0 0 46px rgba(0, 243, 255, 0.2);
 
   --radius: 14px;
   --hud-h: 64px;
@@ -1110,28 +1110,28 @@ tr.lb-me td:first-child { border-left: 3px solid var(--secondary); }
 /* ---- the printable document: HUD report --------------------------- */
 #receipt-doc {
   /* THEME B — BLACK & WHITE (default): neon cyberpunk HUD */
-  --rd-bg: #0b0621;
-  --rd-panel: #150b34;
-  --rd-panel-alt: #1d1046;
-  --rd-text: #f4efff;
-  --rd-dim: #a99ec9;
-  --rd-primary: #ff2e88;
-  --rd-secondary: #2ee6ff;
+  --rd-bg: #05070a;
+  --rd-panel: #0a0f16;
+  --rd-panel-alt: #0e141c;
+  --rd-text: #f8fafc;
+  --rd-dim: #64748b;
+  --rd-primary: #ff0055;
+  --rd-secondary: #00f3ff;
   --rd-accent: #ffb42e;
-  --rd-line: rgba(255, 46, 136, 0.35);
-  --rd-oc-won: #2ee6ff;
-  --rd-oc-lost: #ff2e88;
-  --rd-oc-quit: #a99ec9;
+  --rd-line: rgba(255, 0, 85, 0.35);
+  --rd-oc-won: #00f3ff;
+  --rd-oc-lost: #ff0055;
+  --rd-oc-quit: #64748b;
   margin: 14px 18px 18px; border-radius: 14px; overflow: hidden;
   background: var(--rd-bg); color: var(--rd-text);
   letter-spacing: 0.01em;
 }
 #receipt-doc.theme-dark {
-  --rd-bg: #0b0621; --rd-panel: #150b34; --rd-panel-alt: #1d1046;
-  --rd-text: #f4efff; --rd-dim: #a99ec9;
-  --rd-primary: #ff2e88; --rd-secondary: #2ee6ff; --rd-accent: #ffb42e;
-  --rd-line: rgba(255, 46, 136, 0.35);
-  --rd-oc-won: #2ee6ff; --rd-oc-lost: #ff2e88; --rd-oc-quit: #a99ec9;
+  --rd-bg: #05070a; --rd-panel: #0a0f16; --rd-panel-alt: #0e141c;
+  --rd-text: #f8fafc; --rd-dim: #64748b;
+  --rd-primary: #ff0055; --rd-secondary: #00f3ff; --rd-accent: #ffb42e;
+  --rd-line: rgba(255, 0, 85, 0.35);
+  --rd-oc-won: #00f3ff; --rd-oc-lost: #ff0055; --rd-oc-quit: #64748b;
 }
 
 /* THEME A — WHITE & BLACK: clean white background, sharp black text,
@@ -1302,11 +1302,11 @@ tr.lb-me td:first-child { border-left: 3px solid var(--secondary); }
   /* THEME B — BLACK & WHITE (default): force the deep-space canvas */
   #receipt-doc.theme-dark,
   #receipt-doc {
-    background: #0b0621 !important; color: #f4efff !important;
-    --rd-bg: #0b0621; --rd-panel: #150b34; --rd-panel-alt: #1d1046;
-    --rd-text: #f4efff; --rd-dim: #a99ec9;
-    --rd-primary: #ff2e88; --rd-secondary: #2ee6ff; --rd-accent: #ffb42e;
-    --rd-line: rgba(255, 46, 136, 0.4);
+    background: #05070a !important; color: #f8fafc !important;
+    --rd-bg: #05070a; --rd-panel: #0a0f16; --rd-panel-alt: #0e141c;
+    --rd-text: #f8fafc; --rd-dim: #64748b;
+    --rd-primary: #ff0055; --rd-secondary: #00f3ff; --rd-accent: #ffb42e;
+    --rd-line: rgba(255, 0, 85, 0.4);
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
@@ -1431,4 +1431,147 @@ body.game-active #gm-canvas-wrap {
 .auth-section-sub {
   margin: -6px 0 2px;
   font-size: 0.82rem; color: var(--text-dim); line-height: 1.45;
+}
+
+/* ------------------------------------------------------------------ */
+/* 30. BIOMECHANICAL ULTRON UNIFICATION LAYER                           */
+/*     Tactical grid overlay, HUD corner frames, angled crimson/cyan   */
+/*     buttons, dual-tone hero type and mono telemetry notation.       */
+/* ------------------------------------------------------------------ */
+
+/* 32px cyan tactical grid above the void, below all content */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ---- HUD frames: angular corner tick marks on every game card ---- */
+.game-card-tile::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--secondary), var(--secondary)) top left / 13px 1px no-repeat,
+    linear-gradient(var(--secondary), var(--secondary)) top left / 1px 13px no-repeat,
+    linear-gradient(var(--secondary), var(--secondary)) top right / 13px 1px no-repeat,
+    linear-gradient(var(--secondary), var(--secondary)) top right / 1px 13px no-repeat,
+    linear-gradient(var(--secondary), var(--secondary)) bottom left / 13px 1px no-repeat,
+    linear-gradient(var(--secondary), var(--secondary)) bottom left / 1px 13px no-repeat,
+    linear-gradient(var(--secondary), var(--secondary)) bottom right / 13px 1px no-repeat,
+    linear-gradient(var(--secondary), var(--secondary)) bottom right / 1px 13px no-repeat;
+  opacity: 0.55;
+  transition: opacity 0.3s ease;
+}
+.game-card-tile:hover::after { opacity: 1; }
+
+/* hover elevation (independent of the JS tilt transform) */
+.game-card-tile.in-view:hover {
+  translate: 0 -5px;
+  box-shadow: var(--glow-secondary), 0 28px 56px rgba(0, 0, 0, 0.55);
+}
+
+/* ---- angled crimson primary / cyan-glow secondary buttons ---- */
+.btn-neon {
+  clip-path: polygon(13px 0, 100% 0, calc(100% - 13px) 100%, 0 100%);
+  background: var(--primary);
+  border-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+}
+.btn-neon:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 0 30px color-mix(in srgb, var(--primary) 65%, transparent);
+}
+.btn-ghost {
+  clip-path: polygon(11px 0, 100% 0, calc(100% - 11px) 100%, 0 100%);
+  border: 1px solid color-mix(in srgb, var(--secondary) 55%, transparent);
+  background: linear-gradient(160deg, rgba(15, 23, 32, 0.9), rgba(8, 12, 18, 0.9));
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+}
+.btn-ghost:hover {
+  border-color: var(--secondary);
+  background: transparent;
+  box-shadow: 0 0 26px color-mix(in srgb, var(--secondary) 45%, transparent);
+}
+.card-play {
+  clip-path: polygon(11px 0, 100% 0, calc(100% - 11px) 100%, 0 100%);
+  border: none;
+  background: var(--primary);
+  color: #ffffff;
+  text-transform: uppercase;
+}
+.game-card-tile:hover .card-play {
+  background: var(--primary);
+  color: #ffffff;
+  filter: brightness(1.12);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--primary) 65%, transparent);
+}
+
+/* ---- hero: dual-tone gradient type + tactical notation ---- */
+.hero-title-thin {
+  background: linear-gradient(100deg, var(--secondary) 0%, var(--primary) 55%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+.hero-title {
+  text-transform: uppercase;
+}
+.hero-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.36em;
+}
+.hero-kicker::before {
+  content: "STATUS // ";
+  color: var(--secondary);
+  font-family: var(--font-mono);
+}
+.hero-stat dt::before {
+  content: "// ";
+  color: var(--secondary);
+}
+.hero-stat dt {
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+}
+
+/* ---- telemetry notation across labels ---- */
+.deck-label::before { content: "// "; color: var(--secondary); }
+.category-title { text-transform: uppercase; letter-spacing: 0.12em; }
+.category-index { text-transform: uppercase; letter-spacing: 0.22em; }
+.category-tag::before { content: "// "; color: var(--secondary); }
+.card-title { text-transform: uppercase; letter-spacing: 0.12em; }
+.card-live-dot { text-transform: uppercase; }
+.card-scan-badge { text-transform: uppercase; }
+.nav-link { letter-spacing: 0.26em; }
+.lb-status::before { content: "// "; color: var(--secondary); }
+
+/* nav brand: mono tactical lockup */
+.brand-word {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+.brand-word em {
+  color: var(--secondary);
+  text-shadow: var(--glow-secondary);
+}
+
+/* header: dark metallic alloy backdrop */
+#nav {
+  background: linear-gradient(to bottom, rgba(10, 15, 22, 0.92), rgba(10, 15, 22, 0.55));
+  border-bottom-color: color-mix(in srgb, var(--secondary) 26%, transparent);
 }

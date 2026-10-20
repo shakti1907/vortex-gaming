@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import { useUltron } from "@/components/UltronContext";
 
 /* ==================================================================
-   BiomechanicalHud — fixed HUD chrome around the hero canvas:
-     · glassmorphism top nav (brand emblem · links · slanted override)
+   BiomechanicalHud — sticky top bar, side rails and bottom telemetry
+   dock around the hero canvas:
+     · sticky glass nav — "VORTEX // BIOMECH OS" brand mark, links
+       (Games · Leaderboard · Ultron Core · Terminal), live OVERRIDE
+       SYSTEM button in angled crimson
      · left rail: vertical FOLLOW US + status icons
-     · right rail: numeric slide indicators 01–04 (JetBrains Mono)
-     · bottom dock: glass tiles with ┌ ┘ corner brackets — featured
-       titles, mission parameters, live global score counters
+     · right rail: numeric slide indicators 01–04 (monospace)
+     · bottom dock: .ultron-frame tiles with // telemetry labels —
+       featured titles, mission parameters, live global score counters
    Decoration frames are pointer-events-none; only real controls
    re-enable pointer events so gameplay input is never intercepted.
    ================================================================== */
@@ -22,23 +25,10 @@ function openTerminal(): void {
 function Brandmark() {
   return (
     <svg viewBox="0 0 40 40" className="h-9 w-9" aria-hidden>
-      <polygon points="20,2 37,11 37,29 20,38 3,29 3,11" fill="#05020a" stroke="var(--hud-accent)" strokeWidth="2" />
-      <polygon points="20,10 29,15 29,25 20,30 11,25 11,15" fill="none" stroke="#ff0033" strokeWidth="1.6" />
+      <polygon points="20,2 37,11 37,29 20,38 3,29 3,11" fill="#0a0f16" stroke="var(--hud-accent)" strokeWidth="2" />
+      <polygon points="20,10 29,15 29,25 20,30 11,25 11,15" fill="none" stroke="#ff0055" strokeWidth="1.6" />
       <circle cx="20" cy="20" r="3.4" fill="var(--hud-accent)" />
     </svg>
-  );
-}
-
-function Bracket({ corner }: { corner: "tl" | "br" }) {
-  return (
-    <span
-      aria-hidden
-      className={`pointer-events-none absolute select-none font-[JetBrains_Mono,monospace] text-sm leading-none hud-accent opacity-80 ${
-        corner === "tl" ? "left-1.5 top-0.5" : "bottom-0.5 right-1.5"
-      }`}
-    >
-      {corner === "tl" ? "┌" : "┘"}
-    </span>
   );
 }
 
@@ -49,7 +39,7 @@ function SocialIcon({ label, href, path }: { label: string; href: string; path: 
       aria-label={label}
       target="_blank"
       rel="noreferrer"
-      className="pointer-events-auto grid h-9 w-9 place-items-center border border-white/10 bg-white/5 text-[#8b93a5] transition hover:border-[color:var(--hud-accent-line)] hover:text-white"
+      className="pointer-events-auto grid h-9 w-9 place-items-center border border-white/10 bg-white/5 text-[#64748b] transition hover:border-[color:var(--hud-accent-line)] hover:text-[#f8fafc]"
     >
       <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
         <path d={path} />
@@ -91,50 +81,46 @@ export function BiomechanicalHud() {
 
   return (
     <>
-      {/* ================= TOP HEADER BAR ================= */}
+      {/* ================= STICKY NAVIGATION HEADER ================= */}
       <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3">
-        <div className="pointer-events-auto mx-auto flex max-w-[110rem] items-center gap-4 border border-white/10 bg-black/55 px-4 py-2.5 backdrop-blur-md">
+        <div className="pointer-events-auto mx-auto flex max-w-[110rem] items-center gap-4 border border-[color:var(--hud-accent-line)] bg-[#0a0f16]/85 px-4 py-2.5 backdrop-blur-md">
           <a href="/" className="flex items-center gap-3">
             <Brandmark />
             <div className="leading-none">
-              <p className="font-[Orbitron,sans-serif] text-sm font-black tracking-[0.3em] text-white">
-                VORTEX
+              <p className="font-[JetBrains_Mono,monospace] text-sm font-black uppercase tracking-[0.3em] text-[#f8fafc]">
+                VORTEX <span className="hud-accent">//</span> BIOMECH OS
               </p>
-              <p className="mt-1 font-[JetBrains_Mono,monospace] text-[8px] tracking-[0.34em] text-[#8b93a5]">
-                GAMING // BIOMECH OS
+              <p className="ultron-label mt-1 text-[8px] tracking-[0.34em]">
+                BIOMECHANICAL COMMAND CORE
               </p>
             </div>
           </a>
 
-          <nav className="ml-6 hidden items-center gap-7 font-[JetBrains_Mono,monospace] text-[11px] font-bold tracking-[0.26em] text-[#8b93a5] md:flex">
-            <a href="/index.html" className="transition hover:text-white">
-              GAMES
+          <nav className="ml-6 hidden items-center gap-7 font-[JetBrains_Mono,monospace] text-[11px] font-bold uppercase tracking-[0.26em] text-[#64748b] md:flex">
+            <a href="/index.html" className="transition hover:text-[#00f3ff]">
+              Games
             </a>
-            <a href="/index.html" className="transition hover:text-white">
-              LEADERBOARD
+            <a href="/index.html" className="transition hover:text-[#00f3ff]">
+              Leaderboard
             </a>
-            <a href="#ultron-core" className="transition hover:text-white">
-              ULTRON CORE
+            <a href="#ultron-core" className="transition hover:text-[#00f3ff]">
+              Ultron Core
             </a>
-            <button type="button" onClick={openTerminal} className="transition hover:text-white">
-              TERMINAL
+            <button type="button" onClick={openTerminal} className="transition hover:text-[#00f3ff]">
+              Terminal
             </button>
           </nav>
 
           <div className="ml-auto flex items-center gap-3">
-            <span
-              className={`hidden items-center gap-2 font-[JetBrains_Mono,monospace] text-[9px] tracking-[0.22em] sm:flex ${
-                ultron ? "text-[#ff0033]" : "hud-accent"
-              }`}
-            >
-              <span className={`h-1.5 w-1.5 rounded-full led-pulse ${ultron ? "bg-[#ff0033]" : "hud-accent-bg"}`} />
-              {ultron ? "OVERRIDE: ON" : "OVERRIDE: OFF"}
+            <span className="ultron-label hidden items-center gap-2 text-[9px] tracking-[0.22em] sm:flex">
+              <span className="status-dot" />
+              {ultron ? "OVERRIDE // ON" : "OVERRIDE // OFF"}
             </span>
             <button
               type="button"
               onClick={toggleOverride}
               aria-pressed={ultron}
-              className="clip-slant bg-[#ff0033] px-6 py-2.5 font-[Orbitron,sans-serif] text-[11px] font-bold tracking-[0.18em] text-white transition hover:brightness-110"
+              className="btn-ultron-primary px-6 py-2.5 text-[11px]"
             >
               {ultron ? "RESTORE SYSTEM ↗" : "OVERRIDE SYSTEM ↗"}
             </button>
@@ -147,7 +133,7 @@ export function BiomechanicalHud() {
         aria-label="Social links"
         className="fixed left-3 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-5 xl:flex"
       >
-        <span className="vertical-rl font-[JetBrains_Mono,monospace] text-[10px] font-bold tracking-[0.5em] text-[#8b93a5]">
+        <span className="vertical-rl ultron-label text-[10px] font-bold tracking-[0.5em]">
           FOLLOW US
         </span>
         <span className="h-10 w-px bg-white/15" />
@@ -181,7 +167,7 @@ export function BiomechanicalHud() {
             aria-label={`Slide ${n}`}
             aria-current={slide === n}
             className={`pointer-events-auto font-[JetBrains_Mono,monospace] text-[11px] tracking-[0.2em] transition ${
-              slide === n ? "hud-accent scale-110" : "text-[#4c5464] hover:text-[#8b93a5]"
+              slide === n ? "hud-accent scale-110" : "text-[#334155] hover:text-[#64748b]"
             }`}
           >
             {String(n).padStart(2, "0")}
@@ -198,52 +184,43 @@ export function BiomechanicalHud() {
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 px-3 pb-3">
         <div className="mx-auto grid max-w-[110rem] grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
           {/* tile 1 — featured title */}
-          <a
-            href="/index.html"
-            className="pointer-events-auto relative border border-[color:var(--hud-accent-line)] bg-black/70 px-4 py-3 backdrop-blur-md transition hover:bg-black/85"
-          >
-            <Bracket corner="tl" />
-            <Bracket corner="br" />
-            <p className="font-[JetBrains_Mono,monospace] text-[8px] font-bold tracking-[0.3em] text-[#8b93a5]">
+          <a href="/index.html" className="ultron-frame pointer-events-auto px-4 py-3 transition hover:bg-black/85">
+            <p className="ultron-label text-[8px] font-bold tracking-[0.3em]">
               FEATURED TITLE // 01
             </p>
-            <p className="mt-1.5 font-[Orbitron,sans-serif] text-sm font-bold tracking-[0.12em] text-white">
+            <p className="mt-1.5 font-[JetBrains_Mono,monospace] text-sm font-bold uppercase tracking-[0.12em] text-[#f8fafc]">
               NEON SNAKE
             </p>
-            <p className="mt-1 font-[JetBrains_Mono,monospace] text-[9px] tracking-[0.16em] hud-accent">
+            <p className="mt-1 font-[JetBrains_Mono,monospace] text-[9px] uppercase tracking-[0.16em] hud-accent">
               ACTION / ARCADE — GRID LIVE
             </p>
           </a>
 
           {/* tile 2 — mission parameters */}
-          <div className="relative border border-[color:var(--hud-accent-line)] bg-black/70 px-4 py-3 backdrop-blur-md">
-            <Bracket corner="tl" />
-            <Bracket corner="br" />
-            <p className="font-[JetBrains_Mono,monospace] text-[8px] font-bold tracking-[0.3em] text-[#8b93a5]">
-              MISSION PARAMETERS
+          <div className="ultron-frame px-4 py-3">
+            <p className="ultron-label text-[8px] font-bold tracking-[0.3em]">
+              MISSION // PARAMETERS
             </p>
-            <p className="mt-1.5 font-[Rajdhani,sans-serif] text-sm font-semibold tracking-wide text-white">
+            <p className="mt-1.5 text-sm font-semibold uppercase tracking-wide text-[#f8fafc]">
               {ultron ? "REPEL THE ULTRON TAKEOVER" : "SEIZE THE ULTRON CORE"}
             </p>
-            <p className="mt-1 font-[JetBrains_Mono,monospace] text-[9px] tracking-[0.16em] text-[#8b93a5]">
+            <p className="mt-1 font-[JetBrains_Mono,monospace] text-[9px] uppercase tracking-[0.16em] text-[#64748b]">
               PRIORITY: OMEGA // REWARD: XP ×2
             </p>
           </div>
 
           {/* tile 3 — live global score index */}
-          <div className="relative border border-[color:var(--hud-accent-line)] bg-black/70 px-4 py-3 backdrop-blur-md">
-            <Bracket corner="tl" />
-            <Bracket corner="br" />
-            <p className="flex items-center gap-2 font-[JetBrains_Mono,monospace] text-[8px] font-bold tracking-[0.3em] text-[#8b93a5]">
-              <span className="led-pulse h-1.5 w-1.5 rounded-full hud-accent-bg" />
+          <div className="ultron-frame px-4 py-3">
+            <p className="ultron-label flex items-center gap-2 text-[8px] font-bold tracking-[0.3em]">
+              <span className="status-dot" />
               LIVE GLOBAL SCORE INDEX
             </p>
-            <p className="mt-1.5 font-[JetBrains_Mono,monospace] text-lg font-bold tracking-[0.12em] text-white">
+            <p className="mt-1.5 font-[JetBrains_Mono,monospace] text-lg font-bold tracking-[0.12em] text-[#f8fafc]">
               {counter ? counter.index.toLocaleString("en-IN") : "—"}
             </p>
-            <p className="mt-0.5 font-[JetBrains_Mono,monospace] text-[9px] tracking-[0.16em] text-[#8b93a5]">
+            <p className="mt-0.5 font-[JetBrains_Mono,monospace] text-[9px] uppercase tracking-[0.16em] text-[#64748b]">
               {counter
-                ? `${counter.pilots > 0 ? counter.pilots + " PILOTS // " : ""}${counter.titles} TITLES // SYNC OK`
+                ? `${counter.pilots > 0 ? counter.pilots + " PILOTS // " : ""}${counter.titles} TITLES // STATUS // STABLE`
                 : "AWAITING TELEMETRY LINK…"}
             </p>
           </div>
@@ -252,17 +229,15 @@ export function BiomechanicalHud() {
           <button
             type="button"
             onClick={openTerminal}
-            className="pointer-events-auto relative border border-[color:var(--hud-accent-line)] bg-black/70 px-4 py-3 text-left backdrop-blur-md transition hover:bg-black/85"
+            className="ultron-frame pointer-events-auto px-4 py-3 text-left transition hover:bg-black/85"
           >
-            <Bracket corner="tl" />
-            <Bracket corner="br" />
-            <p className="font-[JetBrains_Mono,monospace] text-[8px] font-bold tracking-[0.3em] text-[#8b93a5]">
-              OPERATOR CONSOLE
+            <p className="ultron-label text-[8px] font-bold tracking-[0.3em]">
+              OPERATOR // CONSOLE
             </p>
-            <p className="mt-1.5 font-[JetBrains_Mono,monospace] text-sm font-bold tracking-[0.12em] text-white">
+            <p className="mt-1.5 font-[JetBrains_Mono,monospace] text-sm font-bold uppercase tracking-[0.12em] text-[#f8fafc]">
               ADMIN TERMINAL
             </p>
-            <p className="mt-1 font-[JetBrains_Mono,monospace] text-[9px] tracking-[0.16em] hud-accent">
+            <p className="mt-1 font-[JetBrains_Mono,monospace] text-[9px] uppercase tracking-[0.16em] hud-accent">
               HOTKEY `~` // CTRL+K →
             </p>
           </button>

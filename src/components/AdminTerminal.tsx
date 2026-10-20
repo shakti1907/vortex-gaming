@@ -28,12 +28,12 @@ function makeLine(text: string, tone: Tone): Line {
 }
 
 const TONE_CLASS: Record<Tone, string> = {
-  sys: "text-[#6b7385]",
-  cmd: "text-white",
+  sys: "text-[#64748b]",
+  cmd: "text-[#f8fafc]",
   ok: "text-[#3dff9a]",
   warn: "text-[#ffb42e]",
-  err: "text-[#ff5c7c]",
-  data: "text-[#8be9ff]",
+  err: "text-[#ff0055]",
+  data: "text-[#00f3ff]",
 };
 
 const HELP_LINES: string[] = [
@@ -260,14 +260,14 @@ export function AdminTerminal() {
         }`}
       >
         <div className="mx-auto max-w-[110rem] px-3 pt-3">
-          <div className="border border-[color:var(--hud-accent-line)] bg-[#05020a]/95 shadow-[0_30px_80px_rgba(0,0,0,0.75)] backdrop-blur-md">
+          <div className="border border-[color:var(--hud-accent-line)] bg-[#05070a]/95 shadow-[0_30px_80px_rgba(0,0,0,0.75)] backdrop-blur-md">
             {/* title bar */}
             <div className="flex items-center gap-3 border-b border-white/10 px-4 py-2.5">
               <span className="led-pulse h-2 w-2 rounded-full hud-accent-bg" />
-              <p className="font-[JetBrains_Mono,monospace] text-[11px] font-bold tracking-[0.3em] text-white">
+              <p className="font-[JetBrains_Mono,monospace] text-[11px] font-bold tracking-[0.3em] text-[#f8fafc]">
                 VORTEX // ADMIN COMMAND TERMINAL
               </p>
-              <span className="hidden font-[JetBrains_Mono,monospace] text-[9px] tracking-[0.22em] text-[#6b7385] sm:inline">
+              <span className="hidden font-[JetBrains_Mono,monospace] text-[9px] tracking-[0.22em] text-[#64748b] sm:inline">
                 SESSION: ROOT-OPS · TRANSPORT: TLS
               </span>
               {busy ? (
@@ -279,7 +279,7 @@ export function AdminTerminal() {
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Close terminal"
-                className="ml-auto grid h-7 w-7 place-items-center border border-white/10 text-[#8b93a5] transition hover:border-[color:var(--hud-accent-line)] hover:text-white"
+                className="ml-auto grid h-7 w-7 place-items-center border border-white/10 text-[#64748b] transition hover:border-[color:var(--hud-accent-line)] hover:text-[#f8fafc]"
               >
                 ✕
               </button>
@@ -310,7 +310,7 @@ export function AdminTerminal() {
                 autoComplete="off"
                 aria-label="Terminal command input"
                 placeholder="/help"
-                className="flex-1 bg-transparent font-[JetBrains_Mono,monospace] text-[12px] tracking-[0.08em] text-white outline-none placeholder:text-[#4c5464]"
+                className="flex-1 bg-transparent font-[JetBrains_Mono,monospace] text-[12px] tracking-[0.08em] text-[#f8fafc] outline-none placeholder:text-[#334155]"
               />
               <span aria-hidden className="blink h-4 w-2 bg-[color:var(--hud-accent)]" />
               <button

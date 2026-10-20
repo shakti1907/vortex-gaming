@@ -1,24 +1,39 @@
 @import "tailwindcss";
 
 /* ==================================================================
-   BIOMECHANICAL ULTRON HUD — obsidian canvas, crimson takeover
-   Accent state lives in CSS vars and flips when the Ultron context
-   sets data-ultron="on" on its wrapper (cyber cyan -> corrupted red).
+   BIOMECHANICAL ULTRON DESIGN SYSTEM
+   · Background  — obsidian deep-alloy #05070a + radial glow + 32px grid
+   · Core accent — neon crimson #ff0055 (primary actions, warnings)
+   · Telemetry   — electric cyan #00f3ff (HUD labels, dots, borders)
+   · Type        — JetBrains Mono, uppercase, wide tracking, // notation
+   HUD accents live in CSS vars and flip when UltronContext sets
+   data-ultron="on" (cyber cyan -> corrupted crimson takeover).
    ================================================================== */
 
+:root {
+  --ultron-bg: #05070a;
+  --ultron-bg-2: #0a0f16;
+  --ultron-alloy: rgba(10, 15, 22, 0.72);
+  --ultron-crimson: #ff0055;
+  --ultron-crimson-soft: rgba(255, 0, 85, 0.16);
+  --ultron-cyan: #00f3ff;
+  --ultron-cyan-soft: rgba(0, 243, 255, 0.12);
+  --ultron-text: #f8fafc;
+  --ultron-dim: #64748b;
+  --ultron-line: rgba(0, 243, 255, 0.22);
+}
+
 [data-ultron="off"] {
-  --hud-accent: #22d3ee;
-  --hud-accent-soft: rgba(34, 211, 238, 0.14);
-  --hud-accent-line: rgba(34, 211, 238, 0.32);
-  --hud-glow: rgba(34, 211, 238, 0.4);
-  --hud-danger: #ff0033;
+  --hud-accent: #00f3ff;
+  --hud-accent-soft: rgba(0, 243, 255, 0.12);
+  --hud-accent-line: rgba(0, 243, 255, 0.3);
+  --hud-glow: rgba(0, 243, 255, 0.4);
 }
 [data-ultron="on"] {
-  --hud-accent: #ff0033;
-  --hud-accent-soft: rgba(255, 0, 51, 0.16);
-  --hud-accent-line: rgba(255, 0, 51, 0.38);
-  --hud-glow: rgba(255, 0, 51, 0.55);
-  --hud-danger: #ff0033;
+  --hud-accent: #ff0055;
+  --hud-accent-soft: rgba(255, 0, 85, 0.16);
+  --hud-accent-line: rgba(255, 0, 85, 0.4);
+  --hud-glow: rgba(255, 0, 85, 0.55);
 }
 
 .hud-accent {
@@ -42,22 +57,124 @@
   transition: background 0.6s ease;
 }
 
+/* ---------------- HUD frames --------------------------------------- */
+/* .ultron-frame — dark translucent alloy, thin accent border, sharp
+   angular corner tick marks (┌ ┐ └ ┘) drawn on one pseudo element. */
+.ultron-frame {
+  position: relative;
+  background: var(--ultron-alloy);
+  border: 1px solid var(--hud-accent-line);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.ultron-frame::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--hud-accent), var(--hud-accent)) top left / 12px 1px no-repeat,
+    linear-gradient(var(--hud-accent), var(--hud-accent)) top left / 1px 12px no-repeat,
+    linear-gradient(var(--hud-accent), var(--hud-accent)) top right / 12px 1px no-repeat,
+    linear-gradient(var(--hud-accent), var(--hud-accent)) top right / 1px 12px no-repeat,
+    linear-gradient(var(--hud-accent), var(--hud-accent)) bottom left / 12px 1px no-repeat,
+    linear-gradient(var(--hud-accent), var(--hud-accent)) bottom left / 1px 12px no-repeat,
+    linear-gradient(var(--hud-accent), var(--hud-accent)) bottom right / 12px 1px no-repeat,
+    linear-gradient(var(--hud-accent), var(--hud-accent)) bottom right / 1px 12px no-repeat;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}
+.ultron-frame:hover::after {
+  opacity: 1;
+}
+
+/* ---------------- buttons ------------------------------------------ */
+.btn-ultron-primary {
+  clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+  background: var(--ultron-crimson);
+  color: #ffffff;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  box-shadow: 0 0 22px rgba(255, 0, 85, 0.45);
+  transition: filter 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+.btn-ultron-primary:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 0 34px rgba(255, 0, 85, 0.65);
+  transform: translateY(-1px);
+}
+
+.btn-ultron-secondary {
+  clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  background: linear-gradient(160deg, rgba(15, 23, 32, 0.9), rgba(8, 12, 18, 0.9));
+  color: var(--ultron-cyan);
+  border: 1px solid rgba(0, 243, 255, 0.55);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  box-shadow: 0 0 16px rgba(0, 243, 255, 0.18), inset 0 0 18px rgba(0, 243, 255, 0.06);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+.btn-ultron-secondary:hover {
+  border-color: var(--ultron-cyan);
+  box-shadow: 0 0 28px rgba(0, 243, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* ---------------- telemetry labels + status dots -------------------- */
+.ultron-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--ultron-dim);
+}
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--hud-accent);
+  box-shadow: 0 0 10px var(--hud-glow);
+  animation: led-pulse 2.2s ease-in-out infinite;
+}
+
+/* ---------------- atmosphere: grid + scanlines --------------------- */
+.ultron-grid {
+  background-image:
+    linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.ultron-radial {
+  background: radial-gradient(ellipse 70% 55% at 50% 28%, rgba(0, 243, 255, 0.07), transparent 72%);
+}
+
+/* ---------------- dual-tone hero type ------------------------------ */
+.dual-tone-text {
+  background: linear-gradient(100deg, var(--ultron-cyan) 0%, var(--ultron-crimson) 55%, var(--ultron-cyan) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 /* ---------------- chiseled metallic typography -------------------- */
 .metal-text {
   background: linear-gradient(
     180deg,
     #ffffff 0%,
-    #dfe6f2 22%,
-    #97a2b5 42%,
+    #e8eef8 22%,
+    #94a2b8 42%,
     #f6f9ff 50%,
-    #6f7a8d 60%,
-    #b9c4d6 82%,
+    #64748b 62%,
+    #b6c2d4 82%,
     #eef2f9 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.06);
 }
 
 .glitch-text {

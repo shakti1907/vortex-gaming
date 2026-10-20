@@ -76,7 +76,7 @@ export function UltronProvider({ children }: { children: ReactNode }) {
     <UltronContext.Provider value={value}>
       <div
         data-ultron={ultron ? "on" : "off"}
-        className="relative min-h-screen overflow-x-hidden bg-[#020105] font-[Rajdhani,sans-serif] text-[#e8ecf5]"
+        className="relative min-h-screen overflow-x-hidden bg-[#05070a] font-[JetBrains_Mono,monospace] text-[#f8fafc]"
       >
         {children}
       </div>
