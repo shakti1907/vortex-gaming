@@ -1,39 +1,63 @@
 @import "tailwindcss";
 
 /* ==================================================================
-   BIOMECHANICAL ULTRON DESIGN SYSTEM
-   · Background  — obsidian deep-alloy #05070a + radial glow + 32px grid
-   · Core accent — neon crimson #ff0055 (primary actions, warnings)
-   · Telemetry   — electric cyan #00f3ff (HUD labels, dots, borders)
-   · Type        — JetBrains Mono, uppercase, wide tracking, // notation
-   HUD accents live in CSS vars and flip when UltronContext sets
-   data-ultron="on" (cyber cyan -> corrupted crimson takeover).
+   VORTEX GAMING — ULTRON CORE COMMAND NEXUS DESIGN SYSTEM
+   · Background  — pitch obsidian #050508 over #000000, dark red/cyan
+                   radial atmospheric washes, faint 32px tactical grid
+   · Core accent — intense neon crimson #ff0055 / laser red #dc2626
+                   (primary actions, override state, glowing strokes)
+   · Nominal     — cold cyan #22e0ff telemetry (status badges and
+                   tactical outlines while the system is nominal;
+                   burns to crimson when the override is engaged)
+   · Type        — Orbitron display + JetBrains Mono telemetry;
+                   metallic white/silver headings, slate body copy
+   · Panels      — thin razor cybernetic borders (red-900/40 tone)
+                   with sharp corner accent ticks
+   UltronContext flips data-ultron="off|on" on the app shell; the
+   CSS vars below carry the whole takeover cascade.
    ================================================================== */
 
 :root {
-  --ultron-bg: #05070a;
-  --ultron-bg-2: #0a0f16;
-  --ultron-alloy: rgba(10, 15, 22, 0.72);
-  --ultron-crimson: #ff0055;
-  --ultron-crimson-soft: rgba(255, 0, 85, 0.16);
-  --ultron-cyan: #00f3ff;
-  --ultron-cyan-soft: rgba(0, 243, 255, 0.12);
-  --ultron-text: #f8fafc;
-  --ultron-dim: #64748b;
-  --ultron-line: rgba(0, 243, 255, 0.22);
+  --vg-obsidian: #050508;
+  --vg-black: #000000;
+  --vg-alloy: rgba(9, 9, 14, 0.74);
+  --vg-crimson: #ff0055;
+  --vg-red: #dc2626;
+  --vg-cyan: #22e0ff;
+  --vg-text: #f8fafc;
+  --vg-silver: #cbd5e1;
+  --vg-dim: #64748b;
 }
 
+/* nominal system — crimson core behind razor red-900/40 lines,
+   cold cyan telemetry accents */
 [data-ultron="off"] {
-  --hud-accent: #00f3ff;
-  --hud-accent-soft: rgba(0, 243, 255, 0.12);
-  --hud-accent-line: rgba(0, 243, 255, 0.3);
-  --hud-glow: rgba(0, 243, 255, 0.4);
-}
-[data-ultron="on"] {
   --hud-accent: #ff0055;
+  --hud-accent-hot: #ff3d77;
+  --hud-accent-soft: rgba(255, 0, 85, 0.1);
+  --hud-accent-line: rgba(127, 29, 29, 0.4); /* ~ border-red-900/40 */
+  --hud-glow: rgba(255, 0, 85, 0.35);
+  --hud-grid: rgba(220, 38, 38, 0.05);
+  --hud-scan: 0.55;
+  --tac-accent: #22e0ff;
+  --tac-line: rgba(34, 224, 255, 0.45);
+  --tac-glow: rgba(34, 224, 255, 0.28);
+  --tac-soft: rgba(34, 224, 255, 0.08);
+}
+
+/* override engaged — the takeover burns hotter, cyan goes crimson */
+[data-ultron="on"] {
+  --hud-accent: #ff1f63;
+  --hud-accent-hot: #ff5c8a;
   --hud-accent-soft: rgba(255, 0, 85, 0.16);
-  --hud-accent-line: rgba(255, 0, 85, 0.4);
-  --hud-glow: rgba(255, 0, 85, 0.55);
+  --hud-accent-line: rgba(255, 0, 85, 0.55);
+  --hud-glow: rgba(255, 0, 85, 0.65);
+  --hud-grid: rgba(255, 0, 85, 0.08);
+  --hud-scan: 1;
+  --tac-accent: #ff3d77;
+  --tac-line: rgba(255, 0, 85, 0.55);
+  --tac-glow: rgba(255, 0, 85, 0.3);
+  --tac-soft: rgba(255, 0, 85, 0.1);
 }
 
 .hud-accent {
@@ -48,6 +72,10 @@
   border-color: var(--hud-accent-line);
   transition: border-color 0.35s ease;
 }
+.tac-accent {
+  color: var(--tac-accent);
+  transition: color 0.35s ease;
+}
 .hud-glow {
   box-shadow: 0 0 26px var(--hud-glow);
   transition: box-shadow 0.35s ease;
@@ -57,20 +85,31 @@
   transition: background 0.6s ease;
 }
 
-/* ---------------- HUD frames --------------------------------------- */
-/* .ultron-frame — dark translucent alloy, thin accent border, sharp
-   angular corner tick marks (┌ ┐ └ ┘) drawn on one pseudo element. */
+::selection {
+  background: rgba(255, 0, 85, 0.4);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 1px solid var(--hud-accent);
+  outline-offset: 2px;
+}
+
+/* ---------------- HUD frames -------------------------------------- */
+/* .ultron-frame — obsidian translucent alloy, thin razor crimson
+   border, sharp angular corner tick marks (┌ ┐ └ ┘) on ::after. */
 .ultron-frame {
   position: relative;
-  background: var(--ultron-alloy);
+  background: var(--vg-alloy);
   border: 1px solid var(--hud-accent-line);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
 }
 .ultron-frame::after {
   content: "";
   position: absolute;
-  inset: 6px;
+  inset: 5px;
   pointer-events: none;
   background:
     linear-gradient(var(--hud-accent), var(--hud-accent)) top left / 12px 1px no-repeat,
@@ -81,55 +120,75 @@
     linear-gradient(var(--hud-accent), var(--hud-accent)) bottom left / 1px 12px no-repeat,
     linear-gradient(var(--hud-accent), var(--hud-accent)) bottom right / 12px 1px no-repeat,
     linear-gradient(var(--hud-accent), var(--hud-accent)) bottom right / 1px 12px no-repeat;
-  opacity: 0.75;
+  opacity: 0.7;
   transition: opacity 0.3s ease;
 }
 .ultron-frame:hover::after {
   opacity: 1;
 }
+[data-ultron="on"] .ultron-frame {
+  box-shadow: 0 0 34px rgba(255, 0, 85, 0.12), inset 0 0 24px rgba(255, 0, 85, 0.05);
+}
 
-/* ---------------- buttons ------------------------------------------ */
+/* ---------------- buttons ----------------------------------------- */
+/* primary — bright neon-red slashed plate, white bold text, ↗ glow */
 .btn-ultron-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65em;
   clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
-  background: var(--ultron-crimson);
+  background: linear-gradient(120deg, #ff0055 0%, #e60040 55%, #dc2626 100%);
   color: #ffffff;
   font-family: "JetBrains Mono", ui-monospace, monospace;
   text-transform: uppercase;
   letter-spacing: 0.22em;
   font-weight: 700;
-  box-shadow: 0 0 22px rgba(255, 0, 85, 0.45);
+  box-shadow: 0 0 22px rgba(255, 0, 85, 0.45), inset 0 0 12px rgba(255, 255, 255, 0.08);
   transition: filter 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
 }
 .btn-ultron-primary:hover {
-  filter: brightness(1.12);
-  box-shadow: 0 0 34px rgba(255, 0, 85, 0.65);
+  filter: brightness(1.14);
+  box-shadow: 0 0 38px rgba(255, 0, 85, 0.7), inset 0 0 14px rgba(255, 255, 255, 0.12);
   transform: translateY(-1px);
 }
+.btn-ultron-primary:active {
+  transform: translateY(0);
+}
 
+/* secondary — dark tactical outline; cold cyan while nominal,
+   corrupted crimson during the takeover (--tac-* vars) */
 .btn-ultron-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65em;
   clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
-  background: linear-gradient(160deg, rgba(15, 23, 32, 0.9), rgba(8, 12, 18, 0.9));
-  color: var(--ultron-cyan);
-  border: 1px solid rgba(0, 243, 255, 0.55);
+  background: linear-gradient(160deg, rgba(10, 10, 16, 0.92), rgba(0, 0, 0, 0.94));
+  color: var(--tac-accent);
+  border: 1px solid var(--tac-line);
   font-family: "JetBrains Mono", ui-monospace, monospace;
   text-transform: uppercase;
   letter-spacing: 0.22em;
   font-weight: 700;
-  box-shadow: 0 0 16px rgba(0, 243, 255, 0.18), inset 0 0 18px rgba(0, 243, 255, 0.06);
-  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.4), inset 0 0 18px var(--tac-soft);
+  transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.25s ease,
+    transform 0.2s ease, background 0.3s ease;
 }
 .btn-ultron-secondary:hover {
-  border-color: var(--ultron-cyan);
-  box-shadow: 0 0 28px rgba(0, 243, 255, 0.4);
+  box-shadow: 0 0 26px var(--tac-glow), inset 0 0 22px var(--tac-soft);
   transform: translateY(-1px);
 }
+.btn-ultron-secondary:active {
+  transform: translateY(0);
+}
 
-/* ---------------- telemetry labels + status dots -------------------- */
+/* ---------------- telemetry labels + status dots ------------------ */
 .ultron-label {
   font-family: "JetBrains Mono", ui-monospace, monospace;
   text-transform: uppercase;
   letter-spacing: 0.28em;
-  color: var(--ultron-dim);
+  color: var(--vg-dim);
 }
 .status-dot {
   display: inline-block;
@@ -140,43 +199,83 @@
   box-shadow: 0 0 10px var(--hud-glow);
   animation: led-pulse 2.2s ease-in-out infinite;
 }
+/* cold cyan nominal indicator (ULTRON CORE // SYSTEM NOMINAL) */
+.status-dot-cyan {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--vg-cyan);
+  box-shadow: 0 0 12px rgba(34, 224, 255, 0.8);
+  animation: led-pulse-cyan 2.2s ease-in-out infinite;
+}
 
-/* ---------------- atmosphere: grid + scanlines --------------------- */
-.ultron-grid {
+/* ---------------- atmosphere: grid + radial + scanlines ----------- */
+.tactical-grid {
   background-image:
-    linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(var(--hud-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hud-grid) 1px, transparent 1px);
   background-size: 32px 32px;
+  transition: background-image 0.6s ease;
 }
-.ultron-radial {
-  background: radial-gradient(ellipse 70% 55% at 50% 28%, rgba(0, 243, 255, 0.07), transparent 72%);
-}
-
-/* ---------------- dual-tone hero type ------------------------------ */
-.dual-tone-text {
-  background: linear-gradient(100deg, var(--ultron-cyan) 0%, var(--ultron-crimson) 55%, var(--ultron-cyan) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.radial-obsidian {
+  background:
+    radial-gradient(ellipse 55% 45% at 18% 18%, rgba(34, 224, 255, 0.05), transparent 70%),
+    radial-gradient(ellipse 70% 55% at 50% 22%, rgba(220, 38, 38, 0.06), transparent 72%),
+    radial-gradient(ellipse 55% 45% at 82% 78%, rgba(255, 0, 85, 0.05), transparent 70%),
+    radial-gradient(ellipse 90% 70% at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.55) 100%);
 }
 
-/* ---------------- chiseled metallic typography -------------------- */
+.scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.028) 0px,
+    rgba(255, 255, 255, 0.028) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  opacity: var(--hud-scan);
+  transition: opacity 0.6s ease;
+}
+
+/* ---------------- hero typography --------------------------------- */
+.font-display {
+  font-family: "Orbitron", "JetBrains Mono", ui-monospace, sans-serif;
+}
+
+/* chiseled metallic white/silver headline */
 .metal-text {
   background: linear-gradient(
     180deg,
     #ffffff 0%,
-    #e8eef8 22%,
-    #94a2b8 42%,
-    #f6f9ff 50%,
-    #64748b 62%,
-    #b6c2d4 82%,
-    #eef2f9 100%
+    #eef2f9 20%,
+    #9aa7ba 42%,
+    #f8fbff 50%,
+    #6b7a90 62%,
+    #c3cede 82%,
+    #f1f5fb 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 6px 22px rgba(0, 0, 0, 0.65));
 }
 
+/* glowing neon-crimson sub-headline */
+.crimson-glow-text {
+  background: linear-gradient(180deg, #ff5c8a 0%, #ff0055 52%, #dc2626 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 14px rgba(255, 0, 85, 0.55))
+    drop-shadow(0 0 48px rgba(255, 0, 85, 0.35));
+}
+[data-ultron="on"] .crimson-glow-text {
+  filter: drop-shadow(0 0 18px rgba(255, 0, 85, 0.8))
+    drop-shadow(0 0 64px rgba(255, 0, 85, 0.5));
+}
+
+/* rare glitch cuts — always subtle, aggressive during takeover */
 .glitch-text {
   position: relative;
   display: inline-block;
@@ -191,18 +290,21 @@
   background-clip: text;
   color: transparent;
   pointer-events: none;
+  opacity: 0;
 }
 .glitch-text::before {
   clip-path: polygon(0 2%, 100% 2%, 100% 34%, 0 34%);
-  transform: translate(-3px, -2px);
-  opacity: 0;
   animation: glitch-cut-a 4.2s infinite steps(1, jump-none);
 }
 .glitch-text::after {
   clip-path: polygon(0 62%, 100% 62%, 100% 96%, 0 96%);
-  transform: translate(3px, 2px);
-  opacity: 0;
   animation: glitch-cut-b 3.4s infinite steps(1, jump-none);
+}
+[data-ultron="on"] .glitch-text::before {
+  animation: glitch-cut-a 1.6s infinite steps(1, jump-none);
+}
+[data-ultron="on"] .glitch-text::after {
+  animation: glitch-cut-b 1.2s infinite steps(1, jump-none);
 }
 @keyframes glitch-cut-a {
   0%, 88%, 100% { opacity: 0; }
@@ -215,7 +317,7 @@
   84% { opacity: 0.5; transform: translate(-2px, 1px); }
 }
 
-/* ---------------- fog / scanlines / ambient ----------------------- */
+/* ---------------- fog / ambient motion ---------------------------- */
 @keyframes fog-drift {
   0% { transform: translate3d(-3%, 0, 0) scale(1.05); }
   50% { transform: translate3d(3%, -2%, 0) scale(1.12); }
@@ -225,14 +327,26 @@
   animation: fog-drift 18s ease-in-out infinite;
 }
 
-.scanlines {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.028) 0px,
-    rgba(255, 255, 255, 0.028) 1px,
-    transparent 1px,
-    transparent 4px
-  );
+@keyframes led-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--hud-glow); }
+  50% { opacity: 0.45; box-shadow: 0 0 2px var(--hud-glow); }
+}
+.led-pulse {
+  animation: led-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes led-pulse-cyan {
+  0%, 100% { opacity: 1; box-shadow: 0 0 12px rgba(34, 224, 255, 0.8); }
+  50% { opacity: 0.45; box-shadow: 0 0 3px rgba(34, 224, 255, 0.5); }
+}
+
+/* live score tick — quick flare whenever the index updates */
+@keyframes score-tick {
+  0% { color: var(--hud-accent-hot); text-shadow: 0 0 18px var(--hud-glow); }
+  100% { color: var(--vg-text); text-shadow: none; }
+}
+.score-tick {
+  animation: score-tick 0.9s ease-out;
 }
 
 /* ---------------- angled clip-paths ------------------------------- */
@@ -266,16 +380,13 @@
   border-radius: 4px;
 }
 
-@keyframes led-pulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--hud-glow); }
-  50% { opacity: 0.45; box-shadow: 0 0 2px var(--hud-glow); }
-}
-.led-pulse {
-  animation: led-pulse 2.2s ease-in-out infinite;
-}
-
 /* vertical social rail */
 .vertical-rl {
   writing-mode: vertical-rl;
   text-orientation: mixed;
+}
+
+/* smooth in-page navigation */
+html {
+  scroll-behavior: smooth;
 }

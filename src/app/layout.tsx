@@ -3,8 +3,9 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Arena Next.js PostgreSQL Starter",
-  description: "Starter template with Next.js, Drizzle, and PostgreSQL.",
+  title: "VORTEX GAMING // BIOMECH OS — System Override",
+  description:
+    "Biomechanical command nexus for the sixteen-title arcade grid. Sharp telemetry, signed score ledgers and a live operator console — awaiting your override.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -17,8 +18,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap"
         />
+        <meta name="theme-color" content="#050508" />
       </head>
-      <body className="bg-slate-100 text-slate-900 antialiased">{children}</body>
+      <body className="bg-[#050508] text-slate-200 antialiased">{children}</body>
     </html>
   );
 }

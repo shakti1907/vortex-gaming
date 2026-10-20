@@ -1,17 +1,43 @@
 "use client";
 
 import { useUltron } from "@/components/UltronContext";
+import { TelemetryDock } from "@/components/TelemetryDock";
 
 /* ==================================================================
-   BiomechanicalHero — obsidian deep-alloy canvas with a 32px cyan
-   grid, volumetric fog, scanlines and directional crimson lighting.
-   Headline: "GAMING SYSTEM OVERRIDE" in dual-tone gradient type;
-   CTAs run the arcade and the operator terminal; a bottom telemetry
-   status strip reports core state in // tactical notation.
+   BiomechanicalHero — Ultron Core Command Nexus canvas: pitch
+   obsidian #050508, subtle dark grid lines, dark red/cyan radial
+   atmosphere, scanlines and the biomechanical suit focal plate.
+   · top status badge — glowing cyan "● ULTRON CORE // SYSTEM
+     NOMINAL", flipping to crimson "TAKEOVER ACTIVE" on override
+   · dual-line metallic headline: VORTEX / GAMING stacked
+   · "SYSTEM OVERRIDE" glowing crimson sub-heading
+   · CTAs: ENTER THE ARCADE ↗ (neon-red slash), OPEN TERMINAL (dark
+     tactical outline), ENGAGE/DISENGAGE ULTRON toggle
+   · TelemetryDock rides mt-auto at the section foot — in flow, so
+     it can never overlap the game grid below.
    ================================================================== */
 
 function openTerminal(): void {
   window.dispatchEvent(new CustomEvent("vortex:open-terminal"));
+}
+
+/* ↗ north-east arrow for the primary action */
+function ArrowUpRight() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden>
+      <path d="M7 17 17 7M8.5 7H17v8.5" strokeLinecap="square" />
+    </svg>
+  );
+}
+
+/* ⏻ power glyph for the Ultron engagement toggle */
+function PowerIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
+      <path d="M12 3v9" strokeLinecap="square" />
+      <path d="M6.8 6.8a7.5 7.5 0 1 0 10.4 0" />
+    </svg>
+  );
 }
 
 export function BiomechanicalHero() {
@@ -20,17 +46,17 @@ export function BiomechanicalHero() {
   return (
     <section
       id="ultron-core"
-      className="relative flex min-h-screen flex-col overflow-hidden bg-[#05070a]"
+      className="relative flex min-h-screen flex-col overflow-hidden bg-[#050508]"
     >
       {/* ---------- decoration layers (never intercept input) ---------- */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="ultron-grid absolute inset-0" />
-        <div className="ultron-radial absolute inset-0" />
+        <div className="tactical-grid absolute inset-0" />
+        <div className="radial-obsidian absolute inset-0" />
         <div className="absolute -left-40 top-0 h-[46rem] w-[46rem] rounded-full bg-[#ff0055]/10 blur-[130px]" />
+        <div className="absolute -right-36 -top-44 h-[36rem] w-[36rem] rounded-full bg-[#22e0ff]/[0.06] blur-[140px]" />
         <div className="hud-fog fog-layer absolute inset-0" />
-        <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[#05070a] via-[#05070a]/80 to-transparent" />
-        <div className="scanlines absolute inset-0 opacity-70" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(5,7,10,0.85)_100%)]" />
+        <div className="scanlines absolute inset-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(0,0,0,0.85)_100%)]" />
       </div>
 
       {/* ---------- focal biomechanical suit (right) ---------- */}
@@ -39,54 +65,77 @@ export function BiomechanicalHero() {
         <img
           src="/assets/ultron-suit.jpg"
           alt=""
-          className="h-full w-full object-cover object-[65%_center] opacity-[0.88]"
+          className="h-full w-full object-cover object-[65%_center] opacity-[0.85]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#05070a] via-[#05070a]/55 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#05070a] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/60 to-transparent" />
+        <div className="absolute inset-0 bg-[#ff0055]/[0.07] mix-blend-overlay" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#030305] to-transparent" />
         <div
           className={`absolute right-[18%] top-[30%] h-40 w-40 rounded-full blur-3xl transition-opacity duration-700 ${
-            ultron ? "bg-[#ff0055]/45 opacity-100" : "bg-[#00f3ff]/20 opacity-70"
+            ultron ? "bg-[#ff0055]/55 opacity-100" : "bg-[#dc2626]/25 opacity-70"
           }`}
         />
       </div>
 
-      {/* ---------- headline block (left) ---------- */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 pb-56 pt-32 sm:px-10 lg:pb-64">
+      {/* ---------- headline block ---------- */}
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 pb-12 pt-32 sm:px-10 sm:pt-36">
+        {/* top status badge */}
         <div className="flex items-center gap-3">
-          <span className="status-dot" />
-          <p className="ultron-label text-[11px] font-bold tracking-[0.42em] hud-accent">
-            {ultron ? "STATUS // TAKEOVER ACTIVE" : "STATUS // SYSTEM ONLINE"}
+          {ultron ? <span className="status-dot" /> : <span className="status-dot-cyan" />}
+          <p
+            className={`font-[JetBrains_Mono,monospace] text-[10px] font-bold uppercase tracking-[0.4em] sm:text-[11px] ${
+              ultron
+                ? "hud-accent drop-shadow-[0_0_10px_rgba(255,0,85,0.55)]"
+                : "tac-accent drop-shadow-[0_0_10px_rgba(34,224,255,0.45)]"
+            }`}
+          >
+            {"ULTRON CORE // "}
+            {ultron ? "TAKEOVER ACTIVE" : "SYSTEM NOMINAL"}
           </p>
+          <span
+            aria-hidden
+            className={`hidden h-px w-24 sm:block ${
+              ultron
+                ? "bg-gradient-to-r from-[#ff0055]/70 to-transparent"
+                : "bg-gradient-to-r from-[#22e0ff]/60 to-transparent"
+            }`}
+          />
         </div>
 
-        <h1 className="mt-6 max-w-3xl">
+        {/* dual-line metallic headline + crimson sub-heading */}
+        <h1 className="mt-7">
           <span
-            data-text="GAMING SYSTEM"
-            className="metal-text glitch-text block font-[JetBrains_Mono,monospace] text-4xl font-black uppercase leading-[0.98] tracking-tight sm:text-6xl xl:text-7xl"
+            data-text="VORTEX"
+            className="metal-text glitch-text font-display block text-6xl font-black uppercase leading-[0.95] tracking-[0.02em] sm:text-8xl xl:text-9xl"
           >
-            GAMING SYSTEM
+            VORTEX
           </span>
           <span
-            data-text="OVERRIDE"
-            className="dual-tone-text glitch-text mt-2 block font-[JetBrains_Mono,monospace] text-5xl font-black uppercase leading-[0.98] tracking-[0.06em] sm:text-7xl xl:text-8xl"
+            data-text="GAMING"
+            className="metal-text glitch-text font-display block text-6xl font-black uppercase leading-[0.95] tracking-[0.02em] sm:text-8xl xl:text-9xl"
           >
-            OVERRIDE
+            GAMING
+          </span>
+          <span
+            data-text="SYSTEM OVERRIDE"
+            className="crimson-glow-text glitch-text font-display mt-3 block text-3xl font-black uppercase leading-[1.05] tracking-[0.16em] sm:mt-4 sm:text-5xl xl:text-6xl"
+          >
+            SYSTEM OVERRIDE
           </span>
         </h1>
 
         <p className="mt-7 max-w-xl text-base leading-relaxed text-[#64748b] sm:text-lg">
-          <span className="font-semibold text-[#f8fafc]">TACTICAL OVERVIEW //</span> sixteen
-          playable titles routed through the biomechanical command core — signed score ledgers,
-          live telemetry frames and a root operator console.{" "}
-          <span className="font-semibold text-[#f8fafc]">
-            {ultron ? "ULTRON HAS THE CONTROLS." : "AWAITING YOUR OVERRIDE."}
-          </span>
+          Biomechanical command nexus for the sixteen-title arcade grid. Sharp telemetry, signed
+          score ledgers and a live operator console — awaiting your override.
         </p>
 
         {/* action row */}
         <div className="mt-9 flex flex-wrap items-center gap-4">
+          {/* /index.html is the static arcade shell in /public — not an App Router page */}
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a href="/index.html" className="btn-ultron-primary px-9 py-4 text-sm">
             ENTER THE ARCADE
+            <ArrowUpRight />
           </a>
           <button type="button" onClick={openTerminal} className="btn-ultron-secondary px-9 py-4 text-sm">
             OPEN TERMINAL
@@ -95,28 +144,18 @@ export function BiomechanicalHero() {
             type="button"
             onClick={toggleOverride}
             aria-pressed={ultron}
-            className="clip-tag hud-accent-border border px-5 py-2.5 font-[JetBrains_Mono,monospace] text-[11px] font-bold uppercase tracking-[0.24em] hud-accent transition hover:bg-white/5"
+            className={`btn-ultron-secondary px-6 py-3 text-[11px] ${
+              ultron ? "shadow-[0_0_26px_rgba(255,0,85,0.4)]" : ""
+            }`}
           >
+            <PowerIcon />
             {ultron ? "DISENGAGE ULTRON" : "ENGAGE ULTRON"}
           </button>
         </div>
-
-        {/* bottom telemetry status strip */}
-        <div className="ultron-frame mt-12 flex flex-wrap items-center gap-x-10 gap-y-3 px-5 py-3.5 font-[JetBrains_Mono,monospace] text-[10px] uppercase tracking-[0.26em] text-[#64748b]">
-          <span className="flex items-center gap-2">
-            <span className="status-dot" />
-            CORE // ULTRON-9
-          </span>
-          <span>STATUS // {ultron ? "CORRUPTED" : "STABLE"}</span>
-          <span>PLATING // OBSIDIAN-ALLOY</span>
-          <span className={ultron ? "text-[#ff0055]" : "text-[#00f3ff]"}>
-            SIGNAL // {ultron ? "OMEGA" : "NOMINAL"}
-          </span>
-        </div>
       </div>
 
-      {/* ---------- bottom HUD dock space guard (tiles live in BiomechanicalHud) ---------- */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-52" />
+      {/* ---------- in-flow bottom telemetry HUD (no more overlap) ---------- */}
+      <TelemetryDock />
     </section>
   );
 }
