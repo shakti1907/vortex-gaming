@@ -4,25 +4,26 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
-  useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 
 /* ==================================================================
-   UltronContext — global "system override" corruption state.
-   When the override is active the wrapper flips to data-ultron="on"
-   and every HUD accent (CSS vars in globals.css) shifts from cyber
-   cyan to deep corrupted crimson. Persisted per-browser.
+   UltronContext — global "system override" takeover state.
+   The shell always runs the crimson Biomech OS palette; when the
+   override is engaged the wrapper flips to data-ultron="on" and the
+   whole HUD burns hotter (CSS vars in globals.css): brighter accent,
+   stronger glow, visible tactical grid and live glitch cuts on the
+   hero type. Persisted per-browser.
    ================================================================== */
 
 export type UltronState = {
   /** True while the Ultron takeover is active. */
   ultron: boolean;
-  /** Force the corruption state on or off (used by /ultron on|off). */
+  /** Force the override state on or off (used by /ultron on|off). */
   setOverride: (on: boolean) => void;
-  /** Flip the corruption state (used by the OVERRIDE SYSTEM button). */
+  /** Flip the override state (used by the OVERRIDE SYSTEM button). */
   toggleOverride: () => void;
 };
 
@@ -30,7 +31,28 @@ const STORAGE_KEY = "vg_ultron_override";
 
 const UltronContext = createContext<UltronState | null>(null);
 
-function readPersisted(): boolean {
+/* ---------------- localStorage-backed external store ---------------
+   useSyncExternalStore keeps the override in sync across every
+   consumer (and across browser tabs via `storage` events) without a
+   mount-time setState cascade. The server snapshot renders the
+   nominal state, so SSR markup never mismatches hydrated clients. */
+
+let listeners: Array<() => void> = [];
+
+function emit(): void {
+  for (const listener of listeners) listener();
+}
+
+function subscribe(listener: () => void): () => void {
+  listeners.push(listener);
+  window.addEventListener("storage", listener);
+  return () => {
+    listeners = listeners.filter((l) => l !== listener);
+    window.removeEventListener("storage", listener);
+  };
+}
+
+function getSnapshot(): boolean {
   try {
     return window.localStorage.getItem(STORAGE_KEY) === "1";
   } catch {
@@ -38,33 +60,28 @@ function readPersisted(): boolean {
   }
 }
 
-function persist(on: boolean): void {
+function getServerSnapshot(): boolean {
+  return false;
+}
+
+function writeOverride(on: boolean): void {
   try {
     window.localStorage.setItem(STORAGE_KEY, on ? "1" : "0");
   } catch {
-    /* storage blocked — state stays in-memory */
+    /* storage blocked — state stays in-memory for this session */
   }
+  emit();
 }
 
 export function UltronProvider({ children }: { children: ReactNode }) {
-  const [ultron, setUltron] = useState(false);
-
-  /* restore the persisted override once on mount */
-  useEffect(() => {
-    if (readPersisted()) setUltron(true);
-  }, []);
+  const ultron = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const setOverride = useCallback((on: boolean) => {
-    setUltron(on);
-    persist(on);
+    writeOverride(on);
   }, []);
 
   const toggleOverride = useCallback(() => {
-    setUltron((prev) => {
-      const next = !prev;
-      persist(next);
-      return next;
-    });
+    writeOverride(!getSnapshot());
   }, []);
 
   const value = useMemo<UltronState>(
@@ -76,7 +93,7 @@ export function UltronProvider({ children }: { children: ReactNode }) {
     <UltronContext.Provider value={value}>
       <div
         data-ultron={ultron ? "on" : "off"}
-        className="relative min-h-screen overflow-x-hidden bg-[#05070a] font-[JetBrains_Mono,monospace] text-[#f8fafc]"
+        className="relative min-h-screen overflow-x-hidden bg-[#050508] font-[JetBrains_Mono,monospace] text-[#f8fafc]"
       >
         {children}
       </div>

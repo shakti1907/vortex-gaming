@@ -33,7 +33,7 @@ const TONE_CLASS: Record<Tone, string> = {
   ok: "text-[#3dff9a]",
   warn: "text-[#ffb42e]",
   err: "text-[#ff0055]",
-  data: "text-[#00f3ff]",
+  data: "text-[#e2e8f0]",
 };
 
 const HELP_LINES: string[] = [
@@ -42,7 +42,7 @@ const HELP_LINES: string[] = [
   "  #data              alias for /data users",
   "  /data scores       top high-score telemetry with verification flags",
   "  /ultron on         force the global corruption state",
-  "  /ultron off        restore nominal cyan systems",
+  "  /ultron off        disengage the override, restore nominal systems",
   "  /help              list valid syntax",
   "  /clear             clear terminal console output",
 ];
@@ -172,8 +172,8 @@ export function AdminTerminal() {
         setOverride(mode === "on");
         append(
           mode === "on"
-            ? "ULTRON TAKEOVER ENGAGED — GLOBAL ACCENT STATE: CORRUPTED CRIMSON"
-            : "ULTRON TAKEOVER DISENGAGED — GLOBAL ACCENT STATE: CYBER CYAN",
+            ? "ULTRON TAKEOVER ENGAGED — SYSTEM OVERRIDE ACTIVE, ALL ACCENTS BURNING CRIMSON"
+            : "ULTRON TAKEOVER DISENGAGED — NOMINAL SYSTEMS RESTORED",
           mode === "on" ? "err" : "ok",
         );
         return;
@@ -260,7 +260,7 @@ export function AdminTerminal() {
         }`}
       >
         <div className="mx-auto max-w-[110rem] px-3 pt-3">
-          <div className="border border-[color:var(--hud-accent-line)] bg-[#05070a]/95 shadow-[0_30px_80px_rgba(0,0,0,0.75)] backdrop-blur-md">
+          <div className="border border-[color:var(--hud-accent-line)] bg-[#050508]/95 shadow-[0_30px_80px_rgba(0,0,0,0.75)] backdrop-blur-md">
             {/* title bar */}
             <div className="flex items-center gap-3 border-b border-white/10 px-4 py-2.5">
               <span className="led-pulse h-2 w-2 rounded-full hud-accent-bg" />

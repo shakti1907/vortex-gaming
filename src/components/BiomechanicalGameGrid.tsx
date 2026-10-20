@@ -65,7 +65,7 @@ const CATEGORY_BLOCKS: CategoryBlock[] = [
 ];
 
 const STATUS_TONE: Record<GameEntry["status"], string> = {
-  LIVE: "text-[#00f3ff]",
+  LIVE: "text-[#cbd5e1]",
   HOT: "text-[#ff0055]",
   NEW: "text-[#ffb42e]",
 };
@@ -92,6 +92,8 @@ function GameCard({ game, slot }: { game: GameEntry; slot: number }) {
         <span className="font-[JetBrains_Mono,monospace] text-[9px] uppercase tracking-[0.22em] text-[#334155]">
           {game.key}
         </span>
+        {/* /index.html is the static arcade shell in /public — not an App Router page */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a
           href="/index.html"
           className="btn-ultron-primary px-5 py-2 text-[10px]"
@@ -106,20 +108,20 @@ function GameCard({ game, slot }: { game: GameEntry; slot: number }) {
 
 export function BiomechanicalGameGrid() {
   return (
-    <section id="game-deck" className="relative bg-[#05070a] px-6 pb-16 pt-20 sm:px-10">
+    <section id="game-deck" className="relative bg-[#050508] px-6 pb-16 pt-20 sm:px-10">
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="ultron-grid absolute inset-0 opacity-60" />
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#05070a] to-transparent" />
+        <div className="tactical-grid absolute inset-0 opacity-60" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#050508] to-transparent" />
       </div>
 
       <div className="relative mx-auto max-w-7xl">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="ultron-label flex items-center gap-2 text-[10px] font-bold tracking-[0.4em] text-[#00f3ff]">
+            <p className="ultron-label flex items-center gap-2 text-[10px] font-bold tracking-[0.4em] hud-accent">
               <span className="status-dot" />
               GAME DECK // 16 TITLES ONLINE
             </p>
-            <h2 className="mt-3 font-[JetBrains_Mono,monospace] text-3xl font-black uppercase tracking-[0.12em] text-[#f8fafc] sm:text-4xl">
+            <h2 className="mt-3 font-display text-3xl font-black uppercase tracking-[0.12em] text-[#f8fafc] sm:text-4xl">
               SELECT YOUR <span className="text-[#ff0055]">MODULE</span>
             </h2>
           </div>
@@ -133,10 +135,10 @@ export function BiomechanicalGameGrid() {
           {CATEGORY_BLOCKS.map((block) => (
             <div key={block.index}>
               <div className="relative mb-7 flex items-baseline gap-4">
-                <span className="rounded-md border border-[color:var(--hud-accent-line)] bg-[color:var(--hud-accent-soft)] px-2.5 py-1 font-[JetBrains_Mono,monospace] text-[11px] font-bold text-[#ff0055]">
+                <span className="clip-tag border border-red-900/60 bg-red-950/40 px-2.5 py-1 font-[JetBrains_Mono,monospace] text-[11px] font-bold text-[#ff0055]">
                   {block.index}
                 </span>
-                <h3 className="font-[JetBrains_Mono,monospace] text-xl font-bold uppercase tracking-[0.22em] text-[#f8fafc]">
+                <h3 className="font-display text-xl font-bold uppercase tracking-[0.22em] text-[#f8fafc]">
                   {block.name}
                 </h3>
                 <span className="ml-auto font-[JetBrains_Mono,monospace] text-[9px] uppercase tracking-[0.26em] text-[#64748b]">
